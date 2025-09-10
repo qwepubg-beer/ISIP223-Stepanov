@@ -72,10 +72,11 @@ Console.WriteLine("3. Сортировка по цене");
 Console.WriteLine("4. Конвертация валюты");
 Console.WriteLine("5. Поиск по названию");
 Console.WriteLine("0. Выход");
-string menu = Console.ReadLine();
+
 bool flag = true;
 while (flag)
 {
+    string menu = Console.ReadLine();
     switch (menu)
     {
         case "1":
