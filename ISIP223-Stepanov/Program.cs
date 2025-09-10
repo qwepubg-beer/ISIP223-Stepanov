@@ -73,51 +73,59 @@ Console.WriteLine("4. Конвертация валюты");
 Console.WriteLine("5. Поиск по названию");
 Console.WriteLine("0. Выход");
 string menu = Console.ReadLine();
-switch (menu)
+bool flag = true;
+while (flag)
 {
-    case "1":Print(ints, strings);
-        break;
-    case "2":
-        Statistics(ints);
-        break;
-    case "3":
-        sort(ints,strings);
-        break;
-    case "4":
-        double money = 1;
-        Console.WriteLine("выбирите валюту");
-        Console.WriteLine("1-рубль");
-        Console.WriteLine("2-белоруский рубль");
-        Console.WriteLine("3-доллар рубль");
-        Console.WriteLine("4-юани");
-        Console.WriteLine("5-своя валюта");
-        string t = Console.ReadLine();
-        switch (t)
-        {
-            case "1":
-                break;
-            case "2":
-                money = 24.94;
-                break;
-            case "3":
-                money = 84.75;
-                break;
-            case "4":
-                money = 11.90;
-                break;
-            case "5":
-                Console.WriteLine("введите стоимость валюты к рублю");
-                string money1 = Console.ReadLine();
-                double number2 = Convert.ToDouble(money1);
-                money = number2;
-                for(int i = 0;i< ints.Length-1;i++)
-                    ints[i] = ints[i]/money;
-                break;
-        }
-        break;
-    case "5":
-        Console.WriteLine("введите название");
-        string uuu= Console.ReadLine();
-        Search(ints, strings, uuu);
-        break;
+    switch (menu)
+    {
+        case "1":
+            Print(ints, strings);
+            break;
+        case "2":
+            Statistics(ints);
+            break;
+        case "3":
+            sort(ints, strings);
+            break;
+        case "4":
+            double money = 1;
+            Console.WriteLine("выбирите валюту");
+            Console.WriteLine("1-рубль");
+            Console.WriteLine("2-белоруский рубль");
+            Console.WriteLine("3-доллар рубль");
+            Console.WriteLine("4-юани");
+            Console.WriteLine("5-своя валюта");
+            string t = Console.ReadLine();
+            switch (t)
+            {
+                case "1":
+                    break;
+                case "2":
+                    money = 24.94;
+                    break;
+                case "3":
+                    money = 84.75;
+                    break;
+                case "4":
+                    money = 11.90;
+                    break;
+                case "5":
+                    Console.WriteLine("введите стоимость валюты к рублю");
+                    string money1 = Console.ReadLine();
+                    double number2 = Convert.ToDouble(money1);
+                    money = number2;
+                    for (int i = 0; i < ints.Length - 1; i++)
+                        ints[i] = ints[i] / money;
+                    break;
+            }
+            break;
+        case "5":
+            Console.WriteLine("введите название");
+            string uuu = Console.ReadLine();
+            Search(ints, strings, uuu);
+                        break;
+        case "0":
+            flag = false;
+            break;
+    }
 }
