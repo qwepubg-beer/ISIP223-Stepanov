@@ -10,7 +10,6 @@ Redactor();
         {
             List<StText> Stext = new List<StText>();
             a=Sort(a);
-            
             Console.WriteLine($" Количество слов: {Count(a)},количество предложений {Pred(a)}");
             Console.WriteLine("1-Количество гласных и согласных");
             Console.WriteLine("2-Самое короткое и самое длинное слово");
@@ -21,13 +20,15 @@ Redactor();
             switch (b)
             {
                 case "1": Console.WriteLine($" Количество гласных {Gl(a)} , согласных {Sg(a)}"); break;
-                case "2": Console.WriteLine($" Самое короткое слово: {Short(a)},самое длинное: {LONG(a)}"); break;
+                case "2": Console.WriteLine($" Самое короткое слово: {Short(a)} ,самое длинное: {LONG(a)}"); break;
                 case "0": flag = true; break;
                 case "3": PrintDictionary<char, int>(Word(a)); break;
                 case "4":
                     if (Stext.Count() > 0) StText.PrintStText(Stext[Stext.Count-1]);break;
+                case "5":
+                    Redactor(); break;
             }
-            StText Text1 = (Count(a), Sg(a), Gl(a), Short(a), LONG(a), Word(a), Pred(a));
+            StText Text1 = new StText(Count(a), Sg(a), Gl(a), Short(a), LONG(a), Word(a), Pred(a));
             Stext.Add(Text1);   
         }
     
@@ -52,7 +53,7 @@ Redactor();
         {
            foreach (char s in Znak) { if (s == a[i]) a.Remove(i, 1); }
         }
-        return a;
+        return a.ToLower();
     }
 
     static int Gl(string a)
@@ -62,21 +63,22 @@ Redactor();
         int sg = 0;
         for (int i = 0; i < a.Length; i++)
         {
-            foreach (char s in Znak) { if (s == a[i]) gl +=1; else sg += 1; }
+            foreach (char s in Znak) { if (s == a[i]) gl += 1; }
         }
         return gl;
     }
      static int Sg(string a)
     {
-        List<char> Znak = new List<char> { 'а', 'о', 'э', 'ю', 'у', 'е', 'и', 'я', 'ы' };
+        List<char> Znak = new List<char> {
+    'б', 'в', 'г', 'д', 'ж', 'з', 'й', 'к', 'л', 'м',
+    'н', 'п', 'р', 'с', 'т', 'ф', 'х', 'ц', 'ч', 'ш', 'щ'}; 
         int gl = 0;
         int sg = 0;
         for (int i = 0; i < a.Length; i++)
         {
-            foreach (char s in Znak) { if (s == a[i]) gl += 1; else sg += 1; }
+            foreach (char s in Znak) { if (s == a[i]) sg += 1;}
         }
-        Console.WriteLine($"Гласных:{gl} Согласных:{sg}");
-        return sg;
+     return sg;
     }
      static Dictionary<char,int> Word(string a)
     {
@@ -114,13 +116,16 @@ Redactor();
     {
         string[] List = a.Split(' ');
         List<string> H = new List<string>(List);
-        string shrt="";
         string space=H[0];
-        foreach(string i in H)
+        for (int i=1; i<List.Length; i++)
         {
-            shrt = (space.Length > i.Length) ? i:space;
+        if (space.Length > H[i].Length)
+        {
+            space= H[i];
         }
-      return shrt;
+    }
+        
+      return space;
     }
     static string LONG(string a)
     {
@@ -128,11 +133,14 @@ Redactor();
         List<string> H = new List<string>(List);
         string shrt = "";
         string space = H[0];
-        foreach (string i in H)
+    for (int i = 1; i < H.Count; i++)
+    {
+       if (H[i].Length > space.Length)
         {
-            shrt = (space.Length < i.Length) ? i : space;
+            shrt=H[i];
         }
-        return shrt;
+    }
+    return shrt;
     }
 static void PrintDictionary<TKey, TValue>(Dictionary<TKey, TValue> dictionary)
 {
@@ -173,8 +181,5 @@ public class StText
         }
 
     }
-    public static implicit operator StText((int, int, int, string, string, Dictionary<char, int>, int) v)
-    {
-        throw new NotImplementedException();
-    }
+    
 }
