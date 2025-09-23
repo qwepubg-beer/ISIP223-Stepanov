@@ -15,6 +15,7 @@ Redactor();
             Console.WriteLine("2-Самое короткое и самое длинное слово");
             Console.WriteLine("3-Частота букв");
             Console.WriteLine("4-Статистика прошлого текста");
+            Console.WriteLine("5-Новый текст");
             Console.WriteLine("0-Конец");
             string b = Console.ReadLine();
             switch (b)
@@ -24,7 +25,9 @@ Redactor();
                 case "0": flag = true; break;
                 case "3": PrintDictionary<char, int>(Word(a)); break;
                 case "4":
-                    if (Stext.Count() > 0) StText.PrintStText(Stext[Stext.Count-1]);break;
+                    if (Stext.Count() > 0) { StText.PrintStText(Stext[Stext.Count - 1]); }
+                    else { Console.WriteLine("Текст не найден"); }
+                    break;
                 case "5":
                     Redactor(); break;
             }
