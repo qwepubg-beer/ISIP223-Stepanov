@@ -21,8 +21,8 @@
 
         public override string ToString()
         {
-            return $"Код: {Code}, Название: {Name}, Цена: {Price:C}, Год: {Year}," +
-                   $"Количество: {Quantity},Категория: {Category} , " +
+            return $"Код: {Code}, Название: {Name}, Цена: {Price:C}, Автор: {Author} " +
+                   $"Год: {Year}, Количество: {Quantity},Категория: {Category} , " +
                    $"В наличии: {(InStock ? "Да" : "Нет")}";
         }
 
@@ -153,146 +153,147 @@
             {
                 Console.WriteLine("Товар с таким кодом не найден!");
             }
-        static void PrintTwoBooks()
-        {
-            decimal space = products[0].Price;
-            int Ucode = 0;
-            int Dcode = 0;
-            for (int i = 1; i < products.Count; i++)
-            {
-                if (space > products[i].Price)
-                {
-                    space = products[i].Price;
-                    Ucode = i;
-                }
-            }
-            for (int i = 1; i < products.Count; i++)
-            {
-                if (space < products[i].Price)
-                {
-                    space = products[i].Price;
-                    Dcode = i;
-                }
-            }
-            Console.WriteLine("Самая дорогая книга");
-            Console.WriteLine(products[Ucode].ToString());
-            Console.WriteLine("Самая дешевая книга");
-            Console.WriteLine(products[Dcode].ToString());
         }
-        static void Sort()
-        {
-            var flag = false;
-            Console.WriteLine("1. Группировка по названию");
-            Console.WriteLine("2. Группировка по году");
-
-            string choose = Console.ReadLine();
-            while (!flag)
+            static void PrintTwoBooks()
             {
-                switch (choose)
+                decimal space = products[0].Price;
+                int Ucode = 0;
+                int Dcode = 0;
+                for (int i = 1; i < products.Count; i++)
                 {
-                    case "1":
-                        var orderedByAge = products.OrderBy(p => p.Year).ToList();
-                        Console.WriteLine("Сортировка по году (возрастание):");
-                        foreach (var p in orderedByAge)
-                            Console.WriteLine(p.ToString());
-                        flag = true;
-                        break;
-                    case "2":
-                        var orderedByAge1 = products.OrderBy(p => p.Name).ToList();
-                        Console.WriteLine("Сортировка по году (возрастание):");
-                        foreach (var p in orderedByAge1)
-                            Console.WriteLine(p.ToString());
-                        flag = true;
-                        break;
-                    default: Console.WriteLine("Неверный выбор"); break;
-                }
-            }
-        }
-        static void PrintAthors()
-        {
-            products = products.OrderBy(p => p.Name).ToList();
-            Dictionary<string, int> author = new Dictionary<string, int>();
-            foreach (Book i in products)
-            {
-                if (author.ContainsKey(i.Author))
-                {
-                    author[i.Author]++;
-                }
-                else
-                {
-                    author.Add(i.Author, 1);
-                }
-            }
-            PrintDictionary<string, int>(author);
-        }
-        static void PrintDictionary<TKey, TValue>(Dictionary<TKey, TValue> dictionary)
-        {
-            foreach (var pair in dictionary)
-            {
-                Console.WriteLine($"{pair.Key}: {pair.Value}");
-            }
-        }
-        static void SearchProducts()
-        {
-            Console.WriteLine("\nПоиск товаров");
-            Console.WriteLine("1. Поиск по коду");
-            Console.WriteLine("2. Поиск по названию");
-            Console.WriteLine("3. Поиск по категории");
-            Console.Write("Выберите тип поиска: ");
-
-            string searchType = Console.ReadLine();
-            List<Book> searchResults = new List<Book>();
-
-            switch (searchType)
-            {
-                case "1":
-                    Console.Write("Введите код товара: ");
-                    string code = Console.ReadLine();
-                    searchResults = products.Where(p => p.Code.Contains(code)).ToList();
-                    break;
-
-                case "2":
-                    Console.Write("Введите название товара: ");
-                    string name = Console.ReadLine();
-                    searchResults = products.Where(p => p.Name.Contains(name, StringComparison.OrdinalIgnoreCase)).ToList();
-                    break;
-
-                case "3":
-                    Console.WriteLine("Доступные категории:");
-                    foreach (var cat in Enum.GetValues(typeof(Type)))
+                    if (space > products[i].Price)
                     {
-                        Console.WriteLine($"{(int)cat}. {cat}");
+                        space = products[i].Price;
+                        Ucode = i;
                     }
-                    Console.Write("Выберите категорию (введите номер): ");
-                    Type category;
-                    if (Enum.TryParse(Console.ReadLine(), out category) && Enum.IsDefined(typeof(Type), category))
+                }
+                for (int i = 1; i < products.Count; i++)
+                {
+                    if (space < products[i].Price)
                     {
-                        searchResults = products.Where(p => p.Category == category).ToList();
+                        space = products[i].Price;
+                        Dcode = i;
+                    }
+                }
+                Console.WriteLine("Самая дорогая книга");
+                Console.WriteLine(products[Ucode].ToString());
+                Console.WriteLine("Самая дешевая книга");
+                Console.WriteLine(products[Dcode].ToString());
+            }
+            static void Sort()
+            {
+                var flag = false;
+                Console.WriteLine("1. Группировка по названию");
+                Console.WriteLine("2. Группировка по году");
+
+                string choose = Console.ReadLine();
+                while (!flag)
+                {
+                    switch (choose)
+                    {
+                        case "1":
+                            var orderedByAge = products.OrderBy(p => p.Year).ToList();
+                            Console.WriteLine("Сортировка по году (возрастание):");
+                            foreach (var p in orderedByAge)
+                                Console.WriteLine(p.ToString());
+                            flag = true;
+                            break;
+                        case "2":
+                            var orderedByAge1 = products.OrderBy(p => p.Name).ToList();
+                            Console.WriteLine("Сортировка по году (возрастание):");
+                            foreach (var p in orderedByAge1)
+                                Console.WriteLine(p.ToString());
+                            flag = true;
+                            break;
+                        default: Console.WriteLine("Неверный выбор"); break;
+                    }
+                }
+            }
+            static void PrintAthors()
+            {
+                products = products.OrderBy(p => p.Name).ToList();
+                Dictionary<string, int> author = new Dictionary<string, int>();
+                foreach (Book i in products)
+                {
+                    if (author.ContainsKey(i.Author))
+                    {
+                        author[i.Author]++;
                     }
                     else
                     {
-                        Console.WriteLine("Неверная категория!");
-                        return;
+                        author.Add(i.Author, 1);
                     }
-                    break;
+                }
+                PrintDictionary<string, int>(author);
+            }
+            static void PrintDictionary<TKey, TValue>(Dictionary<TKey, TValue> dictionary)
+            {
+                foreach (var pair in dictionary)
+                {
+                    Console.WriteLine($"{pair.Key}: {pair.Value}");
+                }
+            }
+            static void SearchProducts()
+            {
+                Console.WriteLine("\nПоиск товаров");
+                Console.WriteLine("1. Поиск по коду");
+                Console.WriteLine("2. Поиск по названию");
+                Console.WriteLine("3. Поиск по категории");
+                Console.Write("Выберите тип поиска: ");
 
-                default:
-                    Console.WriteLine("Неверный выбор!");
+                string searchType = Console.ReadLine();
+                List<Book> searchResults = new List<Book>();
+
+                switch (searchType)
+                {
+                    case "1":
+                        Console.Write("Введите код товара: ");
+                        string code = Console.ReadLine();
+                        searchResults = products.Where(p => p.Code.Contains(code)).ToList();
+                        break;
+
+                    case "2":
+                        Console.Write("Введите название товара: ");
+                        string name = Console.ReadLine();
+                        searchResults = products.Where(p => p.Name.Contains(name, StringComparison.OrdinalIgnoreCase)).ToList();
+                        break;
+
+                    case "3":
+                        Console.WriteLine("Доступные категории:");
+                        foreach (var cat in Enum.GetValues(typeof(Type)))
+                        {
+                            Console.WriteLine($"{(int)cat}. {cat}");
+                        }
+                        Console.Write("Выберите категорию (введите номер): ");
+                        Type category;
+                        if (Enum.TryParse(Console.ReadLine(), out category) && Enum.IsDefined(typeof(Type), category))
+                        {
+                            searchResults = products.Where(p => p.Category == category).ToList();
+                        }
+                        else
+                        {
+                            Console.WriteLine("Неверная категория!");
+                            return;
+                        }
+                        break;
+
+                    default:
+                        Console.WriteLine("Неверный выбор!");
+                        return;
+                }
+
+                if (searchResults.Count == 0)
+                {
+                    Console.WriteLine("Товары не найдены!");
                     return;
-            }
+                }
 
-            if (searchResults.Count == 0)
-            {
-                Console.WriteLine("Товары не найдены!");
-                return;
-            }
-
-            Console.WriteLine("\nРезультаты поиска");
-            foreach (var product in searchResults)
-            {
-                Console.WriteLine(product.ToString());
+                Console.WriteLine("\nРезультаты поиска");
+                foreach (var product in searchResults)
+                {
+                    Console.WriteLine(product.ToString());
+                }
             }
         }
-    }
 
-}
+    }
