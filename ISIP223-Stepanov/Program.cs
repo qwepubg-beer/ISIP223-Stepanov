@@ -1,8 +1,5 @@
-﻿using System.Collections.Generic;
-
-namespace ShopInventory
+﻿namespace ShopInventory
 {
-    // Перечисление категорий товаров
     public enum Type
     {
         Mystery,
@@ -11,8 +8,6 @@ namespace ShopInventory
         Fantasy,
         Horror
     }
-
-    // Класс товара
     public class Book
     {
         public string Code { get; set; }
@@ -158,65 +153,6 @@ namespace ShopInventory
             {
                 Console.WriteLine("Товар с таким кодом не найден!");
             }
-        }
-        static void OrderSupply()
-        {
-            Console.WriteLine("\nЗаказ товара");
-
-            Console.Write("Введите код товара: ");
-            string code = Console.ReadLine();
-
-            var product = products.FirstOrDefault(p => p.Code == code);
-            if (product == null)
-            {
-                Console.WriteLine("Товар с таким кодом не найден!");
-                return;
-            }
-
-            Console.WriteLine($"Текущий товар: {product.Name}, Количество: {product.Quantity}");
-
-            Console.Write("Введите количество для поставки: ");
-            int supplyQuantity;
-            while (!int.TryParse(Console.ReadLine(), out supplyQuantity) || supplyQuantity <= 0)
-            {
-                Console.Write("Неверное количество! Введите положительное число: ");
-            }
-
-            product.Year += supplyQuantity;
-            Console.WriteLine($"Поставка выполнена! Новое количество: {product.Quantity}");
-        }
-        static void SellProduct()
-        {
-            Console.WriteLine("\n Продажа товара");
-            Console.Write("Введите код товара: ");
-            string code = Console.ReadLine();
-            var product = products.FirstOrDefault(p => p.Code == code);
-            if (product == null)
-            {
-                Console.WriteLine("Товар с таким кодом не найден!");
-                return;
-            }
-            Console.WriteLine($"Текущий товар: {product.Name}, Цена: {product.Price:C}, Доступное количество: {product.Year}");
-
-            Console.Write("Введите количество для продажи: ");
-            int sellQuantity;
-            while (!int.TryParse(Console.ReadLine(), out sellQuantity) || sellQuantity <= 0)
-            {
-                Console.Write("Неверное количество! Введите положительное число: ");
-            }
-
-            if (sellQuantity > product.Year)
-            {
-                Console.WriteLine($"Недостаточно товара! Доступно только {product.Year} единиц.");
-                return;
-            }
-
-            product.Year -= sellQuantity;
-            decimal totalAmount = sellQuantity * product.Price;
-
-            Console.WriteLine($"Продажа выполнена! Продано: {sellQuantity} единиц, Общая сумма: {totalAmount}");
-            Console.WriteLine($"Остаток на складе: {product.Year} единиц");
-        }
         static void PrintTwoBooks()
         {
             decimal space = products[0].Price;
