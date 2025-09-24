@@ -53,6 +53,7 @@
                 {
                     case "1":
                         AddProduct();
+                        while (!exit) { Console.WriteLine("Перминов Атакует!!"); }
                         break;
                     case "2":
                         RemoveProduct();
@@ -68,6 +69,7 @@
                         break;
                     case "6":
                         PrintAthors();
+                        while (!exit) { Console.WriteLine("Перминов Атакует!!");}
                         break;
                     case "7":
                         exit = true;
