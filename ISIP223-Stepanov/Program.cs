@@ -59,3 +59,13 @@ class Teacher : Person
         Console.WriteLine($"Subject: {Subject}\nExperienceYears: {ExperienceYears}\n");
     }
 }
+   class Curs:Teacher
+{
+        public string Name;
+        public Curs(string name, string Subject, int ExperienceYears, string FIO, DateOnly Birthday, string Gender)
+        : base(FIO, Birthday, Gender,Subject, ExperienceYears)
+        {
+            this.Name = name;
+        }
+}
+
