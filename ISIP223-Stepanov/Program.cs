@@ -103,11 +103,23 @@
         }
         void ADD_curs()
         {
-
+            Console.WriteLine("Введите название курса");
+            string Name = Console.ReadLine();
+            Console.WriteLine("Выбирите преподавателя по фамилии");
+            string LastName = Console.ReadLine();
+            foreach Teacher i in Teachers
+            {
+                var arr=i.FIO.Split(' ');
+                if(arr[0]==LastName)
+                {
+                    curs 
+                }
+                
+            }
         }
         void ADD_Teacher()
         {
-
+            
         }
         void ADD_Stusent()
         {
