@@ -80,12 +80,42 @@
     {
         void Main(string[] args)
         {
-
             bool flag = false;
             while (!flag)
             {
-
+                Console.WriteLine("Выбирите действие из списка");
+                string choose= Console.ReadLine();   
+                Console.WriteLine("1. Добавить Студента");
+                Console.WriteLine("2. Добавить Учителя");
+                Console.WriteLine("3. Добавить Курс");
+                Console.WriteLine("3. Запись студента на курс");
+                Console.WriteLine("0. Выход");
+                switch (choose)
+                {
+                    case "1":break;
+                    case "2": break;
+                    case "3": break;
+                    case "4": break;
+                    case "0":flag = true; break;
+                    default:break;
+                }
             }
+        }
+        void ADD_curs()
+        {
+
+        }
+        void ADD_Teacher()
+        {
+
+        }
+        void ADD_Stusent()
+        {
+
+        }
+        void ADD_Stusent_curs()
+        {
+
         }
     }
 }
