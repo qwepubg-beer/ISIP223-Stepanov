@@ -1,10 +1,12 @@
-﻿namespace university
+﻿using System.Reflection;
+
+namespace university
 {
     class Person
     {
-        private string FIO;
-        private DateOnly Birthday;
-        private string Gender;
+        public string FIO;
+        public DateOnly Birthday;
+        public string Gender;
 
         public Person(string fio, DateOnly birthday, string gender)
         {
@@ -44,8 +46,8 @@
 
     class Teacher : Person
     {
-        private string Subject;
-        private int ExperienceYears;
+        public string Subject;
+        public int ExperienceYears;
 
         public Teacher(string fio, DateOnly birthday, string gender, string subject, int PCExperience)
             : base(fio, birthday, gender)
@@ -78,6 +80,9 @@
     }
     class Program
     {
+        List<Teacher> Teachers = new List<Teacher>();
+        List<Student> Students = new List<Student>();
+        List<Curs> curs = new List<Curs>();
         void Main(string[] args)
         {
             bool flag = false;
@@ -107,27 +112,110 @@
             string Name = Console.ReadLine();
             Console.WriteLine("Выбирите преподавателя по фамилии");
             string LastName = Console.ReadLine();
-            foreach Teacher i in Teachers
+            foreach (Teacher i in Teachers)
             {
-                var arr=i.FIO.Split(' ');
-                if(arr[0]==LastName)
+                string[] stringArray = i.FIO.Split(' ');
+                                
+                if (stringArray[0]==LastName)
                 {
-                    curs 
+                    Console.WriteLine("Введите название курса: ");
+                    string name = Console.ReadLine();
+                    Curs k1 = new Curs(name,i.Subject,i.ExperienceYears,i.FIO,i.Birthday,i.Gender);
+                    curs.Add(k1);
+                }
+                else
+                {
+                    Console.WriteLine("Преподаватель не найден");
                 }
                 
             }
         }
         void ADD_Teacher()
         {
-            
+            Console.WriteLine("\nДобавление учителя");
+            Console.WriteLine("Введите фио: ");
+            string fio = Console.ReadLine();
+            Console.WriteLine("Введите гендер: ");
+            string gender = Console.ReadLine();
+            Console.WriteLine("Введите дату рождения: ");
+            DateOnly year;
+            while (!DateOnly.TryParse(Console.ReadLine(), out year))
+            {
+                Console.Write("Неверная дата! Введите корректное значение: ");
+            }
+            Console.WriteLine("Введите предмет: ");
+            string sbj = Console.ReadLine();
+             Console.WriteLine("Введите стаж в годах: ");
+            int quantity;
+            while (!int.TryParse(Console.ReadLine(), out quantity) || quantity <= 0)
+            {
+                Console.Write("Неверное количество! Введите корректное значение: ");
+            }
+           Teacher t1 = new Teacher(fio, year,gender,sbj,quantity);
+           Teachers.Add(t1);
+                
         }
         void ADD_Stusent()
         {
-
+            Console.WriteLine("\nДобавление учителя");
+            Console.WriteLine("Введите фио: ");
+            string fio = Console.ReadLine();
+            Console.WriteLine("Введите гендер: ");
+            string gender = Console.ReadLine();
+            Console.WriteLine("Введите дату рождения: ");
+            DateOnly year;
+            while (!DateOnly.TryParse(Console.ReadLine(), out year))
+            {
+                Console.Write("Неверная дата! Введите корректное значение: ");
+            }
+            Console.WriteLine("Введите предмет: ");
+            string sbj = Console.ReadLine();
+            int id;
+            while (!int.TryParse(Console.ReadLine(), out id) || id <= 0)
+            {
+                Console.Write("Неверное количество! Введите корректное значение: ");
+            }
+            Console.WriteLine("Введите предмет: ");
+            bool PCExperience;
+            while (!bool.TryParse(Console.ReadLine(), out PCExperience))
+            {
+                Console.Write("Неверное значение! Введите корректное значение: ");
+            }
+            Console.WriteLine("Введите номер курса: ");
+            int CourseNumber;
+            while (!int.TryParse(Console.ReadLine(), out CourseNumber) || CourseNumber <= 0)
+            {
+                Console.Write("Неверное количество! Введите корректное значение: ");
+            }
+            Console.WriteLine("Введите группу здоровья: ");
+            string HealthGroup= Console.ReadLine();
+            
+            Teachers.Add(t1);
         }
         void ADD_Stusent_curs()
+               
         {
-
+            Console.WriteLine("\nДобавление студента");
+            Console.WriteLine("Введите фио: ");
+            string fio = Console.ReadLine();
+            Console.WriteLine("Введите гендер: ");
+            string gender = Console.ReadLine();
+            Console.WriteLine("Введите дату рождения: ");
+            DateOnly year;
+            while (!DateOnly.TryParse(Console.ReadLine(), out year))
+            {
+                Console.Write("Неверная дата! Введите корректное значение: ");
+            }
+            Console.WriteLine("Введите предмет: ");
+            string sbj = Console.ReadLine();
+            Console.WriteLine("Введите стаж в годах: ");
+            int StudentNumberID;
+            while (!int.TryParse(Console.ReadLine(), out StudentNumberID) || StudentNumberID <= 0)
+            {
+                Console.Write("Неверное количество! Введите корректное значение: ");
+            }
+            Teacher t1 = new Teacher(fio, year, gender, sbj, StudentNumberID);
+            Teachers.Add(t1);
         }
     }
 }
