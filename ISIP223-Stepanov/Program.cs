@@ -23,15 +23,15 @@ namespace university
     class Student : Person
     {
         private int StudentNumberID;
-        private bool PCExperience;
+        
         private int CourseNumber;
         private string TheHealthGroup;
 
-        public Student(int id, string fio, DateOnly birthday, string gender, bool PCExperience, string TheHealthGroup, int CourseNumber)
+        public Student(int id, string fio, DateOnly birthday, string gender, string TheHealthGroup, int CourseNumber)
             : base(fio, birthday, gender)
         {
             StudentNumberID = id;
-            this.PCExperience = PCExperience;
+            
             this.CourseNumber = CourseNumber;
             this.TheHealthGroup = TheHealthGroup;
         }
@@ -40,7 +40,7 @@ namespace university
         {
             Console.WriteLine("Student");
             base.Print();
-            Console.WriteLine($"StudentNumberID: {StudentNumberID}\nPCExperience: {PCExperience}\nTheHealthGroup: {TheHealthGroup}\nCourseNumber: {CourseNumber}\n");
+            Console.WriteLine($"StudentNumberID: {StudentNumberID}\nTheHealthGroup: {TheHealthGroup}\nCourseNumber: {CourseNumber}\n");
         }
     }
 
@@ -76,6 +76,11 @@ namespace university
             Console.WriteLine("Curs:");
             Console.WriteLine($"curs: {Name}");
             base.Print();
+        }
+        public List<Student> Student_Curs;
+        public void Add(Student student)
+        {
+            Student_Curs.Add(student);
         }
     }
     class Program
@@ -157,40 +162,27 @@ namespace university
         }
         void ADD_Stusent()
         {
-            Console.WriteLine("\nДобавление учителя");
-            Console.WriteLine("Введите фио: ");
-            string fio = Console.ReadLine();
-            Console.WriteLine("Введите гендер: ");
-            string gender = Console.ReadLine();
-            Console.WriteLine("Введите дату рождения: ");
-            DateOnly year;
-            while (!DateOnly.TryParse(Console.ReadLine(), out year))
+            Console.WriteLine("\nДобавление студента на курс");
+            Console.WriteLine("Выбирите студента по фамилии");
+            string LastName = Console.ReadLine();
+            foreach (Student i in Students)
             {
-                Console.Write("Неверная дата! Введите корректное значение: ");
+                string[] stringArray = i.FIO.Split(' ');
+
+                if (stringArray[0] == LastName)
+                {
+                    Console.WriteLine("Выбирите курс по номеру");
+                    PrintCurs(curs);
+                    int n;
+                    while (!int.TryParse(Console.ReadLine(), out n)|| n>=curs.Count)
+                    {
+                        Console.Write("Неверная номер! Введите корректное значение: ");
+                    }
+                    curs[n].Add(i);
+                    Console.WriteLine("Студент добавлен");
+                }
+                
             }
-            Console.WriteLine("Введите предмет: ");
-            string sbj = Console.ReadLine();
-            int id;
-            while (!int.TryParse(Console.ReadLine(), out id) || id <= 0)
-            {
-                Console.Write("Неверное количество! Введите корректное значение: ");
-            }
-            Console.WriteLine("Введите предмет: ");
-            bool PCExperience;
-            while (!bool.TryParse(Console.ReadLine(), out PCExperience))
-            {
-                Console.Write("Неверное значение! Введите корректное значение: ");
-            }
-            Console.WriteLine("Введите номер курса: ");
-            int CourseNumber;
-            while (!int.TryParse(Console.ReadLine(), out CourseNumber) || CourseNumber <= 0)
-            {
-                Console.Write("Неверное количество! Введите корректное значение: ");
-            }
-            Console.WriteLine("Введите группу здоровья: ");
-            string HealthGroup= Console.ReadLine();
-            
-            Teachers.Add(t1);
         }
         void ADD_Stusent_curs()
                
@@ -216,6 +208,13 @@ namespace university
             }
             Teacher t1 = new Teacher(fio, year, gender, sbj, StudentNumberID);
             Teachers.Add(t1);
+        }
+        static void PrintCurs(List<Curs> list)
+        {
+            for (int i = 0; i < list.Count; i++)
+            {
+                Console.WriteLine($"{i}--{list[i].Name}");
+            }
         }
     }
 }
