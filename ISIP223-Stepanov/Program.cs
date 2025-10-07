@@ -1,22 +1,20 @@
-﻿using System.Reflection;
-
 namespace university
 {
     class Person
     {
         public string FIO;
-        public DateOnly Birthday;
+        
         public string Gender;
 
-        public Person(string fio, DateOnly birthday, string gender)
+        public Person(string fio,string gender)
         {
             FIO = fio;
-            Birthday = birthday;
+            
             Gender = gender;
         }
         public virtual void Print()
         {
-            Console.WriteLine($"FIO: {FIO}\nBirthday: {Birthday}\nGender: {Gender} ");
+            Console.WriteLine($"FIO: {FIO}\n Gender: {Gender} ");
         }
     }
 
@@ -27,8 +25,8 @@ namespace university
         private int CourseNumber;
         private string TheHealthGroup;
 
-        public Student(int id, string fio, DateOnly birthday, string gender, string TheHealthGroup, int CourseNumber)
-            : base(fio, birthday, gender)
+        public Student(int id, string fio, string gender, string TheHealthGroup, int CourseNumber)
+            : base(fio, gender)
         {
             StudentNumberID = id;
             
@@ -49,8 +47,8 @@ namespace university
         public string Subject;
         public int ExperienceYears;
 
-        public Teacher(string fio, DateOnly birthday, string gender, string subject, int PCExperience)
-            : base(fio, birthday, gender)
+        public Teacher(string fio, string gender, string subject, int PCExperience)
+            : base(fio, gender)
         {
             Subject = subject;
             ExperienceYears = PCExperience;
@@ -66,8 +64,8 @@ namespace university
     class Curs : Teacher
     {
         public string Name;
-        public Curs(string name, string Subject, int ExperienceYears, string FIO, DateOnly Birthday, string Gender)
-        : base(FIO, Birthday, Gender, Subject, ExperienceYears)
+        public Curs(string name, string Subject, int ExperienceYears, string FIO, string Gender)
+        : base(FIO, Gender, Subject, ExperienceYears)
         {
             this.Name = name;
         }
@@ -78,44 +76,51 @@ namespace university
             base.Print();
         }
         public List<Student> Student_Curs;
-        public void Add(Student student)
-        {
-            Student_Curs.Add(student);
-        }
+        
     }
     class Program
     {
-        List<Teacher> Teachers = new List<Teacher>();
-        List<Student> Students = new List<Student>();
-        List<Curs> curs = new List<Curs>();
-        void Main(string[] args)
+       
+        /*
+        Student Dima = new Student(1000, "Dima", "мэн", "питонист", 3);
+        Student David = new Student(1001, "David", "мэн", "1", 3);
+        Teacher Max = new Teacher("Max", "мэн", "c#", 3);
+        Curs Pytnon = new Curs("Питон", "с#", 3, "Max", "мэн");
+         */  
+         static void Main(string[] args)
         {
+            List<Teacher> Teachers = new List<Teacher>();
+            List<Student> Students = new List<Student>();
+            List<Curs> curs = new List<Curs>();
             bool flag = false;
+                
             while (!flag)
             {
-                Console.WriteLine("Выбирите действие из списка");
-                string choose= Console.ReadLine();   
                 Console.WriteLine("1. Добавить Студента");
                 Console.WriteLine("2. Добавить Учителя");
                 Console.WriteLine("3. Добавить Курс");
-                Console.WriteLine("3. Запись студента на курс");
+                Console.WriteLine("4. Запись студента на курс");
+                Console.WriteLine("5. Список студентов");
+                Console.WriteLine("6. Список студентов");
                 Console.WriteLine("0. Выход");
-                switch (choose)
+                Console.WriteLine("Выбирите действие из списка");
+                string choose= Console.ReadLine();   
+               switch (choose)
                 {
-                    case "1":break;
-                    case "2": break;
-                    case "3": break;
-                    case "4": break;
+                    case "1": ADD_Student(Students); break;
+                    case "2": ADD_Teacher(Teachers); break;
+                    case "3": ADD_curs(Teachers,curs); break;
+                    case "4": ADD_Student_curs(Students,curs); break;
+                    case "5": PrintStudents(Students); break;
+                    case "6": PrintTeachers(Teachers); break;
                     case "0":flag = true; break;
                     default:break;
                 }
             }
         }
-        void ADD_curs()
+        static void ADD_curs(List<Teacher> Teachers, List<Curs> curs)
         {
-            Console.WriteLine("Введите название курса");
-            string Name = Console.ReadLine();
-            Console.WriteLine("Выбирите преподавателя по фамилии");
+            Console.WriteLine("Выбирите преподавателя курса по фамилии");
             string LastName = Console.ReadLine();
             foreach (Teacher i in Teachers)
             {
@@ -125,8 +130,9 @@ namespace university
                 {
                     Console.WriteLine("Введите название курса: ");
                     string name = Console.ReadLine();
-                    Curs k1 = new Curs(name,i.Subject,i.ExperienceYears,i.FIO,i.Birthday,i.Gender);
+                    Curs k1 = new Curs(name,i.Subject,i.ExperienceYears,i.FIO,i.Gender);
                     curs.Add(k1);
+                    Console.WriteLine("Успешное добавление\n");
                 }
                 else
                 {
@@ -135,19 +141,13 @@ namespace university
                 
             }
         }
-        void ADD_Teacher()
+        static void ADD_Teacher(List<Teacher> Teachers)
         {
             Console.WriteLine("\nДобавление учителя");
             Console.WriteLine("Введите фио: ");
             string fio = Console.ReadLine();
             Console.WriteLine("Введите гендер: ");
             string gender = Console.ReadLine();
-            Console.WriteLine("Введите дату рождения: ");
-            DateOnly year;
-            while (!DateOnly.TryParse(Console.ReadLine(), out year))
-            {
-                Console.Write("Неверная дата! Введите корректное значение: ");
-            }
             Console.WriteLine("Введите предмет: ");
             string sbj = Console.ReadLine();
              Console.WriteLine("Введите стаж в годах: ");
@@ -156,11 +156,11 @@ namespace university
             {
                 Console.Write("Неверное количество! Введите корректное значение: ");
             }
-           Teacher t1 = new Teacher(fio, year,gender,sbj,quantity);
+           Teacher t1 = new Teacher(fio,gender,sbj,quantity);
            Teachers.Add(t1);
-                
+            Console.WriteLine("Успешное добавление\n");
         }
-        void ADD_Stusent()
+        static void ADD_Student_curs(List<Student> Students, List<Curs>curs)
         {
             Console.WriteLine("\nДобавление студента на курс");
             Console.WriteLine("Выбирите студента по фамилии");
@@ -178,36 +178,36 @@ namespace university
                     {
                         Console.Write("Неверная номер! Введите корректное значение: ");
                     }
-                    curs[n].Add(i);
+                    curs[n].Student_Curs.Add(i);
                     Console.WriteLine("Студент добавлен");
                 }
                 
             }
         }
-        void ADD_Stusent_curs()
-               
+        static void ADD_Student(List<Student> Students)
         {
             Console.WriteLine("\nДобавление студента");
             Console.WriteLine("Введите фио: ");
             string fio = Console.ReadLine();
             Console.WriteLine("Введите гендер: ");
             string gender = Console.ReadLine();
-            Console.WriteLine("Введите дату рождения: ");
-            DateOnly year;
-            while (!DateOnly.TryParse(Console.ReadLine(), out year))
+            Console.WriteLine("Введите ид: ");
+            int id;
+            while (!int.TryParse(Console.ReadLine(), out id))
             {
-                Console.Write("Неверная дата! Введите корректное значение: ");
+                Console.Write("Неверный id! Введите корректное значение: ");
             }
-            Console.WriteLine("Введите предмет: ");
-            string sbj = Console.ReadLine();
-            Console.WriteLine("Введите стаж в годах: ");
-            int StudentNumberID;
-            while (!int.TryParse(Console.ReadLine(), out StudentNumberID) || StudentNumberID <= 0)
+            Console.WriteLine("Введите номер курса: ");
+            int curs;
+            while (!int.TryParse(Console.ReadLine(), out curs))
             {
-                Console.Write("Неверное количество! Введите корректное значение: ");
+                Console.Write("Неверный id! Введите корректное значение: ");
             }
-            Teacher t1 = new Teacher(fio, year, gender, sbj, StudentNumberID);
-            Teachers.Add(t1);
+            Console.WriteLine("Введите группу здоровья: ");
+            string Hgroup = Console.ReadLine();
+            Student t1 = new Student(id, fio, gender, Hgroup ,curs);
+            Students.Add(t1);
+            Console.WriteLine("Успешное добавление\n");
         }
         static void PrintCurs(List<Curs> list)
         {
@@ -216,6 +216,19 @@ namespace university
                 Console.WriteLine($"{i}--{list[i].Name}");
             }
         }
+        static void PrintStudents(List<Student> list)
+        {
+            for (int i = 0; i < list.Count; i++)
+            {
+                Console.WriteLine($"{i}--{list[i].FIO}");
+            }
+        }
+        static void PrintTeachers(List<Teacher> list)
+        {
+            for (int i = 0; i < list.Count; i++)
+            {
+                Console.WriteLine($"{(i+1)}--{list[i].FIO}");
+            }
+        }
     }
 }
-
