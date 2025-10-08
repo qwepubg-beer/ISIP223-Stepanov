@@ -112,5 +112,17 @@ namespace GamePR6
                 
             }
         }
+        void Pod(List<Def> d,List<Enemy> e)
+{
+    Def d1 = new Def("boxer gloves", 2, "boxer gloves", 10);
+    Def d2 = new Def("sword", 4, "shield", 20);
+    Def d3 = new Def("club", 4, "shield", 30);
+    Def d4 = new Def("super_streight", 6, "cloak", 40);
+    Def d5 = new Def("chess", 7, "board", 30);
+    Def d6 = new Def("granate", 12, "None", 0);
+    Def d7 = new Def("tank", 15 , "Iron", 70);
+    d.Add(d1);d.Add(d2);d.Add(d3);d.Add(d4);d.Add(d5);d.Add(d6);d.Add(d7);
+
+}
     }
 }
