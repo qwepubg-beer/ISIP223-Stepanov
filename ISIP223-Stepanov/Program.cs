@@ -6,7 +6,7 @@ namespace GamePR6
     class Weapon
     {
         public string NameW;
-        public int  Damage;
+        public int Damage;
         public Weapon(string name_d, int block)
 
         {
@@ -18,13 +18,13 @@ namespace GamePR6
     {
         public string NameD;
         public int Block;
-        
-        public Def( string name_d, int block)
-            
+
+        public Def(string name_d, int block)
+
         {
             NameD = name_d;
             Block = block;
-           
+
         }
     }
     class Person
@@ -35,7 +35,7 @@ namespace GamePR6
         public double Damage;
         public int Def;
         public string Type;
-        public Person(string name, int hp, int damage=0, int def=0, string type="None")
+        public Person(string name, int hp, int damage = 0, int def = 0, string type = "None")
         {
             Name = name;
             Hp = hp;
@@ -54,125 +54,141 @@ namespace GamePR6
         static Def shield = new Def("Щит", 60);
         static Def leather_armor = new Def("Кожанка", 20);
         static Def iron_armor = new Def("Кальчуга", 40);
-        
         static void Main(string[] args)
         {
             Person Sperminov = new Person("Сперминов", 100);
-            Person Goblin = new Person("Гоблин", 50,10,10,"G");
+            Person Goblin = new Person("Гоблин", 50, 10, 10, "G");
             Person Skelet = new Person("Скелет", 60, 10, 10, "S");
             Person Mag = new Person("Маг", 40, 15, 10, "M");
-            Person Grifin = new Person("ГВВ",100,15,20,"G");
-            Person Kov = new Person("Ковальский", 150, 23, 24 , "S");
+            Person Grifin = new Person("ГВВ", 100, 15, 20, "G");
+            Person Kov = new Person("Ковальский", 150, 23, 24, "S");
             Person cpp = new Person("GordovC++", 72, 26, 11, "M");
             Person cmm = new Person("PestovC--", 78, 16, 6, "S");
             Random rand = new Random();
             List<Person> enemies = new List<Person> { Goblin, Skelet, Mag };
-            List<Person> Bosses = new List<Person> { Grifin,Kov,cpp,cmm };
+            List<Person> Bosses = new List<Person> { Grifin, Kov, cpp, cmm };
             Console.WriteLine("Добро пожаловать в игру Спернимонов против нежити");
             Console.WriteLine("Выбирите уровень сложности");
             Console.WriteLine("1 - Сперминов прайм");
             Console.WriteLine("2 - Сперминов в Хогвартсе");
             Console.WriteLine("3 - Сперминов в КипФине");
-            string Choose=Console.ReadLine();
+            string Choose = Console.ReadLine();
             switch (Choose)
             {
-                case "1":Sperminov.Damage = Axe.Damage; Sperminov.Def = shield.Block;
+                case "1":
+                    Sperminov.Damage = Axe.Damage; Sperminov.Def = shield.Block;
                     break;
-                case "2":Sperminov.Damage = bow.Damage; Sperminov.Def = iron_armor.Block;
+                case "2":
+                    Sperminov.Damage = bow.Damage; Sperminov.Def = iron_armor.Block;
                     break;
-                case "3":Sperminov.Damage = Sword.Damage; Sperminov.Def = leather_armor.Block;
+                case "3":
+                    Sperminov.Damage = Sword.Damage; Sperminov.Def = leather_armor.Block;
                     break;
-                default:Sperminov.Damage = bow.Damage; Sperminov.Def = iron_armor.Block;
-   
+                default:
+                    Sperminov.Damage = bow.Damage; Sperminov.Def = iron_armor.Block;
+
                     break;
             }
             Console.WriteLine("Нажмите для продолжения\n");
             Console.ReadKey();
             Console.Clear();
-            
-            for (int i = 0; i <= 10; i++)
-            {
-                if (i==10) CaseorBattle(Sperminov, Bosses[rand.Next(0,3)]);
-                CaseorBattle(Sperminov, enemies[rand.Next(0, 2)]);
-            }
-            
+            battlesystem(Sperminov, Bosses, enemies);
 
         }
         static void battle(Person p, Person e)
         {
-            while (p.Hp >= 0 && e.Hp >= 0)
-            { 
-                Console.WriteLine("Выбирите действие");
+            while (p.Hp > 0 && e.Hp > 0)
+            {
+                Random random = new Random();
+                if (p.Hp <= 0) { Console.WriteLine("Вы проиграли"); break; }
+                Console.WriteLine($"Здоровье Сперминова = {p.Hp}");
+                Console.WriteLine($"Здоровье Врага {e.Name} = {e.Hp}");
+                Console.WriteLine("Выбирите действие: 1-атака, 2-защита");
                 string Choose = Console.ReadLine();
-                switch(Choose)
+                switch (Choose)
                 {
-                    case "1":attack(p, e);break;
-                    case "2":defend(p, e);break;
-                    default: attack(p, e); break;
-                }
-                attack(e, p);
+                    case "1": if (random.Next(0, 100) <= 25 && e.Type=="M" ){ Console.WriteLine("Маг отразил вашу атаку");  break; } else {attack(p, e);break; }
+                    case "2": defend(p, e); break;
+                            default: attack(p, e); break;
+                            }
+                if (e.Hp > 0) { attack(e, p); }
             }
         }
         static void attack(Person p, Person e)
         {
-            e.Hp-=p.Damage;
+            Random random = new Random();
+            switch (p.Type)
+            {
+                case "G": if (random.Next(0, 100) <= 40) { Console.WriteLine("Гоблин наносит двойной урон"); e.Hp -= 2*p.Damage; break; } else { e.Hp -= p.Damage; break; }
+                default: e.Hp -= p.Damage;break;
+            }
+           
         }
-        static double defend(Person p, Person e)
+        static void defend(Person p, Person e)
         {
             Random random = new Random();
-            if (random.Next(1, 100) > 40)
+            if (random.Next(1, 100) > 50)
             {
-                return p.Hp-=e.Damage*((100-p.Def)/100);
+                if (e.Type == "S") { Console.WriteLine("Скелет игнорирует защиту"); p.Hp -= e.Damage; }
+                else {p.Hp -= e.Damage * ((100 - p.Def) / 100); }
             }
-            else { return p.Hp; }
+           
         }
         static void CaseorBattle(Person p, Person e)
         {
+            Thread.Sleep(1000);
+            Console.Clear();
             Random random = new Random();
-            if (random.Next(1, 2) == 1)
+            if (random.Next(2) == 1)
             {
-            Console.WriteLine("Бой начинается");
-               battle(p, e);
+                Console.WriteLine("Бой начинается");
+                battle(p, e);
             }
-            //Thread.Sleep
-            else
+            else if (random.Next(2) == 0)
             {
                 Console.WriteLine("Вам выпал кейс");
                 Case(p);
             }
         }
-        static void Case (Person p)
+        static void Case(Person p)
         {
-            List<double> list = new List<double> { 1.1, 1.2, 1.3, 1.4 };   
+            List<double> list = new List<double> { 1.1, 1.15, 1.2, 1.25 };
             Random random = new Random();
-            if (random.Next(1, 2) == 1)
+            if (random.Next(3) == 0)
             {
                 p.Hp = p.BHp;
                 Console.WriteLine("Вам выпало зелье регенерации. Вы исцелены");
             }
             else
             {
-                if (random.Next(1, 2) == 1)
+                if (random.Next(2) == 1)
                 {
-                    int a = random.Next(0, 3);
+                    int a = random.Next(4);
                     p.BHp *= list[a];
-                    Console.WriteLine($"Вам выпало усиление здоровья на {list[a]}");
+                    Console.WriteLine($"Вам выпало усиление здоровья в {list[a]}");
                 }
                 else
                 {
-                    int a = random.Next(0, 3);
+                    int a = random.Next(4);
                     p.Damage *= list[a];
-                    Console.WriteLine($"Вам выпало усиление урона на {list[a]}");
+                    Console.WriteLine($"Вам выпало усиление урона в {list[a]}");
                 }
-            }
+             }
+            Console.WriteLine("Нажмите для продолжения\n");
+            Console.ReadKey();
         }
-        static void cb(Person p, Person e)
+        static void battlesystem(Person p,List<Person> Bosses, List<Person> enemies)
         {
-            for (int i = 0; i <= 10; i++)
+            int round = 0;
+            Random rand = new Random();
+            while (p.Hp > 0)
             {
-                if (i == 10) { }
-                else { CaseorBattle(p, e); }
+                round+=1;
+                Console.WriteLine($"Раунд {round}");
+                if (round == 10) { Console.WriteLine($"Битва с босом"); CaseorBattle(p, Bosses[rand.Next(0, 4)]); }
+                else { CaseorBattle(p, enemies[rand.Next(0, 3)]); }
             }
+            Console.WriteLine("Вы проиграли");
         }
-}
+ }
 }
