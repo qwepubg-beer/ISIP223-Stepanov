@@ -58,10 +58,10 @@ namespace GamePR6
         {
             Person Sperminov = new Person("Сперминов", 100);
             Person Goblin = new Person("Гоблин", 50, 10, 10, "G");
-            Person Skelet = new Person("Скелет", 60, 10, 10, "S");
+            Person Skelet = new Person("Скелет", 50, 10, 10, "S");
             Person Mag = new Person("Маг", 40, 15, 10, "M");
-            Person Grifin = new Person("ГВВ", 100, 15, 20, "G");
-            Person Kov = new Person("Ковальский", 150, 23, 24, "S");
+            Person Grifin = new Person("ГВВ", 100, 24, 20, "G");
+            Person Kov = new Person("Ковальский", 120, 20, 20, "S");
             Person cpp = new Person("GordovC++", 72, 26, 11, "M");
             Person cmm = new Person("PestovC--", 78, 16, 6, "S");
             Random rand = new Random();
@@ -103,36 +103,55 @@ namespace GamePR6
                 if (p.Hp <= 0) { Console.WriteLine("Вы проиграли"); break; }
                 Console.WriteLine($"Здоровье Сперминова = {p.Hp}");
                 Console.WriteLine($"Здоровье Врага {e.Name} = {e.Hp}");
-                Console.WriteLine("Выбирите действие: 1-атака, 2-защита");
+                Console.WriteLine("Выбирите действие: 1-атака");
                 string Choose = Console.ReadLine();
+                
                 switch (Choose)
                 {
-                    case "1": if (random.Next(0, 100) <= 25 && e.Type=="M" ){ Console.WriteLine("Маг отразил вашу атаку");  break; } else {attack(p, e);break; }
-                    case "2": defend(p, e); break;
-                            default: attack(p, e); break;
-                            }
-                if (e.Hp > 0) { attack(e, p); }
+                    case "1":if (random.Next(0, 100) <= 25 && e.Type == "M") { Console.WriteLine("Маг отразил вашу атаку"); break; } else { defend(p, e); break; }
+                        
+                    default:
+                        defend(p, e); break;
+                }
+               if (e.Hp > 0) 
+                {
+                    defend(e, p);
+                }
             }
         }
-        static void attack(Person p, Person e)
+        static void attack(Person p, Person e,double attack)
         {
+            /*
             Random random = new Random();
-            switch (p.Type)
+            switch (e.Type)
             {
-                case "G": if (random.Next(0, 100) <= 40) { Console.WriteLine("Гоблин наносит двойной урон"); e.Hp -= 2*p.Damage; break; } else { e.Hp -= p.Damage; break; }
-                default: e.Hp -= p.Damage;break;
+                case "M": if (random.Next(0, 100) <= 40) { Console.WriteLine("Маг замораживает вас"); break; } else { e.Hp -= attack; break; }
+                default: e.Hp -= attack; break;
             }
-           
+            */
+            e.Hp -= attack;
+
         }
         static void defend(Person p, Person e)
         {
+            double damage=p.Damage;
             Random random = new Random();
-            if (random.Next(1, 100) > 50)
+            switch (p.Type)
             {
-                if (e.Type == "S") { Console.WriteLine("Скелет игнорирует защиту"); p.Hp -= e.Damage; }
-                else {p.Hp -= e.Damage * ((100 - p.Def) / 100); }
-            }
-           
+                case "G":
+                    if (random.Next(0, 100) <= 40)
+                    {
+                        Console.WriteLine("Гоблин наносит двойной урон");
+                        damage = p.Damage*(100-e.Def)/50; 
+                        break; 
+                    }
+                    else { damage = p.Damage * (100 - e.Def) / 100; break; }
+                    
+                case "M": damage = p.Damage * (100 - e.Def) / 50; break;
+                                                           
+                case "S": Console.WriteLine("Скелет игнорирует защиту"); damage = p.Damage; break;
+            }          
+            attack(p,e,damage);
         }
         static void CaseorBattle(Person p, Person e)
         {
@@ -154,7 +173,7 @@ namespace GamePR6
         {
             List<double> list = new List<double> { 1.1, 1.15, 1.2, 1.25 };
             Random random = new Random();
-            if (random.Next(3) == 0)
+            if (random.Next(2) == 0)
             {
                 p.Hp = p.BHp;
                 Console.WriteLine("Вам выпало зелье регенерации. Вы исцелены");
@@ -173,22 +192,31 @@ namespace GamePR6
                     p.Damage *= list[a];
                     Console.WriteLine($"Вам выпало усиление урона в {list[a]}");
                 }
-             }
+            }
             Console.WriteLine("Нажмите для продолжения\n");
             Console.ReadKey();
         }
-        static void battlesystem(Person p,List<Person> Bosses, List<Person> enemies)
+        static void battlesystem(Person p, List<Person> Bosses, List<Person> enemies)
         {
             int round = 0;
             Random rand = new Random();
+            
             while (p.Hp > 0)
             {
-                round+=1;
+                foreach (Person a in enemies)
+            { 
+                a.Hp = a.BHp;
+            }
+            foreach (Person a in enemies)
+            {
+                a.Hp = a.BHp;
+            }
+                round += 1;
                 Console.WriteLine($"Раунд {round}");
-                if (round == 10) { Console.WriteLine($"Битва с босом"); CaseorBattle(p, Bosses[rand.Next(0, 4)]); }
-                else { CaseorBattle(p, enemies[rand.Next(0, 3)]); }
+                if (round == 10) { Console.WriteLine($"Битва с босом"); battle(p, Bosses[rand.Next(4)]); }
+                else { CaseorBattle(p, enemies[rand.Next(3)]); }
             }
             Console.WriteLine("Вы проиграли");
         }
- }
+    }
 }
