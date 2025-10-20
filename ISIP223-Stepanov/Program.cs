@@ -1,12 +1,14 @@
+using System.Data.SqlTypes;
+
 namespace Avtoservis
 {
     class Servis
     {
         public string Name { get; set; }
         public decimal Money { get; set; }
-        public Servis (string name, decimal money)
+        public Servis(string name, decimal money)
         {
-            Name = name;    
+            Name = name;
             Money = money;
         }
     }
@@ -23,30 +25,18 @@ namespace Avtoservis
             SetMoney = setMoney;
             Quantity = quantity;
         }
-        
+
     }
     class Order
     {
-        string NameDetail { get; set; }
-        bool IsBuy { get; set; }
-        public Order (string name, bool isBuy=false)
+        public string NameDetail { get; set; }
+        public bool IsBuy { get; set; }
+        public Order(string name, bool isBuy = false)
         {
             NameDetail = name;
             IsBuy = isBuy;
         }
-        public void Offer(Order order)
-        {
-            Console.WriteLine("Вам поступил новый заказ");
-            Console.WriteLine($"Сломано:{order.NameDetail}");
-            Console.WriteLine("1-Принять/2-Откланить");
-            string choose=Console.ReadLine();
-            switch(choose)
-            {
-                case "1": break;
-                case "2": break;
-            }
-        }
-    }
+          }
     class Program
     {
         static void Main(string[] args)
@@ -71,7 +61,7 @@ namespace Avtoservis
             {
                 Console.Write("Введите корректное значение!!!");
             }
-            if (Names[Detail_Name].PriceMoney*Qa<=avtoservis.Money)
+            if (Names[Detail_Name].PriceMoney * Qa <= avtoservis.Money)
             {
                 avtoservis.Money -= Names[Detail_Name].PriceMoney * Qa;
                 Names[Detail_Name].Quantity += Qa;
@@ -82,9 +72,32 @@ namespace Avtoservis
                 Console.WriteLine($"Але бизнес, где деньги");
             }
         }
-        static public void Send (List<Detail> Names)
+        static public void Send(List<Detail> Names)
         {
             //отправка на бд
+        }
+        static public void PrintDetals(List<Detail> Names)
+        {
+            foreach (Detail detail in Names)
+            {
+                Console.WriteLine($"Название:{detail.Name} Стоимоть: {detail.PriceMoney} Колличество: {detail.Quantity}");
+            }
+        }
+        static public void Offer(Detail detail, Servis servis)
+        {
+            PrintDetals();
+            Console.WriteLine($"Вам поступил новый заказ");
+            Console.WriteLine($"У меня сломалась деталь {detail.Name}.Почините?");
+            Console.WriteLine("1-Принять/2-Откланить");
+            string choose = Console.ReadLine();
+            switch (choose)
+            {
+                case "1":
+                    
+                        if()
+                    break;
+                case "2": break;
+            }
         }
     }
 }
