@@ -18,7 +18,7 @@ namespace Avtoservis
         public decimal PriceMoney { get; set; }
         public decimal SetMoney { get; set; }
         public int Quantity { get; set; }
-        public Detail(string name, decimal priceMoney, decimal setMoney, int quantity)
+        public Detail(string name, decimal priceMoney, decimal setMoney, int quantity,int servisID = 1)
         {
             Name = name;
             PriceMoney = priceMoney;
@@ -39,9 +39,17 @@ namespace Avtoservis
           }
     class Program
     {
-        static void Main(string[] args)
+        static Detail detail1 = new Detail("Мотор", 100000,50000,2);
+        static Detail detail2 = new Detail("Шина", 2000, 400, 16);
+        static Detail detail3 = new Detail("Диск", 5000, 5000, 12);
+        static Detail detail4 = new Detail("СтеклоЛоб", 15000, 5000, 2);
+        static Detail detail5 = new Detail("СтеклоБок", 10000, 4000, 3);
+        static Detail detail6 = new Detail("Бак", 20000, 7000, 3);
+        static Detail detail7 = new Detail("Зеркало", 7000, 4000, 4);
+       static void Main(string[] args)
         {
-
+            Servis Gordovservis = new Servis("Gordov", 200000);
+            List<Detail> details = new List<Detail> { detail1, detail2, detail3, detail4, detail5, detail6, detail7 };
         }
         static public void BayDetail(List<Detail> Names, Servis avtoservis)
         {
