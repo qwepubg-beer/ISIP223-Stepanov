@@ -21,15 +21,6 @@ namespace ConsoleApp
         public Nullable<int> ServisID { get; set; }
         public Nullable<int> Quantity { get; set; }
     
-         public Details(string name, int priceMoney, int setMoney, int? servisID, int? quantity)
-        {
-            Name = name;
-            PriceMoney = priceMoney;
-            SetMoney = setMoney;
-            ServisID = servisID;
-            Quantity = quantity;
-                   }
-
         public virtual Servises Servises { get; set; }
     }
 }

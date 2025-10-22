@@ -24,11 +24,6 @@ namespace ConsoleApp
         public int Money { get; set; }
         public string Name { get; set; }
     
-        public Servises(string Name, int Money)
-        {
-            this.Name = Name;
-            this.Money = Money;
-        }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Details> Details { get; set; }
     }
