@@ -9,12 +9,39 @@ namespace ConsoleApp
 {
     internal class Program
     {
+        
         static void Main(string[] args)
         {
             List<Product> products = Core.Context.Product.ToList();
-            User anonim = new User();
+            bool flag = true;
+            User anonim = new User("", "");
+            while(flag)
+            {
+                PrintMenu(anonim.Login);
+                
+                Console.WriteLine("Выбирите действие");
+                string choose=Console.ReadLine();
+                switch(choose.ToLower())
+                {
+                    case "l":PrintList(products);
+                        Console.WriteLine("Выбирите товар по номеру");
+                        string choose2=Console.ReadLine();
+                        Console.WriteLine(choose2);
+                        break;
+                    case "r":
+                        Regestration(anonim);
+                        break;
+                    case "k":
+                        Printbasket(anonim.ID);
+                        break;
+                    case "p":
+                        
+                        break;
+                    default:break;
+                }
+            }
         }
-        static void Enter()
+        static void Enter(User user)
         {
             bool r = true;
             while (r)
@@ -31,7 +58,7 @@ namespace ConsoleApp
                         switch (h.ToLower())
                         { 
                             case "y":
-                                Regestration();
+                                Regestration(editUser);
                                 break;
                             case "n":
                                 Console.WriteLine("Продолжить без входа? Y/N");
@@ -55,12 +82,29 @@ namespace ConsoleApp
                             password = Console.ReadLine();
                         }
                         Console.WriteLine("Вы авторизировались");
+                        user.Login=editUser.Login;
                         break;
                 }
             }
                
         }
-        static void Regestration()
+        static void PrintMenu(string login)
+        {
+            Console.WriteLine($"L            R             K         P");
+            Console.WriteLine($"Лист товаров Регистрация   Корзина   Пользователь {login}");
+        }
+        static void Printbasket(int id)
+        {
+            if (id!=0)
+            {
+                List<Busket_Product> products = Core.Context.Busket_Product.ToList();
+                var select= from product in products
+                            where product.UserID==id
+                            select product;
+            }
+            
+        }
+        static void Regestration (User editUser)
         {
             Console.WriteLine("Введите логин");
             string login1 = Console.ReadLine();
@@ -72,13 +116,25 @@ namespace ConsoleApp
                 password1 = Console.ReadLine();
             }
             Console.WriteLine($"Ваш пароль: {password1}");
+            Core.Context.User.Add(editUser);
+            Core.Context.SaveChanges();
             Thread.Sleep(1000);
             Console.Clear();
         }
-        static void AddtoBacket()
+        static void AddtoBacket(int number,User user)
         {
-
+            Busket_Product editBucket = new Busket_Product(number,user.ID);
+            Core.Context.Busket_Product.Add(editBucket);
+            Core.Context.SaveChanges();
         }
+        static void PrintList(List<Product> products)
+        {
+            for (int i=0; i<products.Count;i++)
+            {
+                Console.WriteLine($"{i}----{products[i].Name} ----- {products[i].Price}");
+            }
+        }
+
         static void AddPVZ(List<PVZ> pVZs, User user1)
         {
             Console.WriteLine("Выбирите пункт выдачи заказов по номеру");
@@ -86,12 +142,7 @@ namespace ConsoleApp
             {
                 Console.WriteLine($"{i} --- {pVZs[i].PVZ1}");
             }
-            /*int choose;
-            while (!int.TryParse(Console.ReadLine(), out choose)  choose <= 0  choose >= pVZs.Count())
-            {
-                Console.Write("Введите корректное значение: ");
-            }
-            */
+            
         }
     }
 }

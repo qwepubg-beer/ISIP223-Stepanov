@@ -19,10 +19,10 @@ namespace ConsoleApp
         public int BasketID { get; set; }
         public int UserID { get; set; }
 
-        public Busket_Product(int Product_ID , int BasketID ,int UserID)
+        public Busket_Product(int Product_ID ,int UserID,int BasketID=0)
         {
             this.Product_ID=Product_ID;
-            this.BasketID=BasketID;
+            this.BasketID=UserID;
             this.UserID=UserID;
         }
         public virtual Product Product { get; set; }

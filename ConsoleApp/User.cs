@@ -19,7 +19,7 @@ namespace ConsoleApp
         {
             this.Busket_Product = new HashSet<Busket_Product>();
         }
-        public User(string Password, string Login, int PVZID)
+        public User(string Password, string Login, int PVZID=1)
         {
             this.Password = Password;
             this.Login = Login;
