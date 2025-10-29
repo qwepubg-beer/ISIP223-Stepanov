@@ -19,10 +19,7 @@ namespace ConsoleApp
         {
             this.User = new HashSet<User>();
         }
-    public PVZ(string a)
-        {
-            PVZ1 = a;
-        }
+        
         public int ID { get; set; }
         public string PVZ1 { get; set; }
     

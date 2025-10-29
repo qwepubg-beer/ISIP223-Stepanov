@@ -19,22 +19,16 @@ namespace ConsoleApp
         {
             this.Busket_Product = new HashSet<Busket_Product>();
         }
-    public Product( string name, int price, int quantity, string description)
-     {
-           
-            Name = name;
-            Price = price;
-            Quantity = quantity;
-            Description = description;
-           
-
-   }
-
+        public Product(string Name, int Price)
+        {
+            this.Name = Name;
+            this.Price = Price;
+        }
         public int ID { get; set; }
         public string Name { get; set; }
         public int Price { get; set; }
-        public int Quantity { get; set; }
         public string Description { get; set; }
+
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Busket_Product> Busket_Product { get; set; }

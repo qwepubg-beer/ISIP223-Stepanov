@@ -19,16 +19,19 @@ namespace ConsoleApp
         {
             this.Busket_Product = new HashSet<Busket_Product>();
         }
-        public User(string Password, string Login, int PVZID=1)
+        public User(string password, string login, int P_ID = 1, int money = 10000)
         {
-            this.Password = Password;
-            this.Login = Login;
-            this.PVZID = PVZID;
+            Password = password;
+            Login = login;
+            PVZID = P_ID;
+            Money = money;
+
         }
         public int ID { get; set; }
         public string Password { get; set; }
         public string Login { get; set; }
         public Nullable<int> PVZID { get; set; }
+        public Nullable<int> Money { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Busket_Product> Busket_Product { get; set; }

@@ -4,12 +4,12 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="c3605a7b72d64e7a983df7a94e4552b3" Name="Diagram1">
-        <EntityTypeShape EntityType="EvreisMarketplaceModel.Busket_Product" Width="1.5" PointX="5.25" PointY="0.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="EvreisMarketplaceModel.Product" Width="1.5" PointX="3" PointY="4.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="EvreisMarketplaceModel.PVZ" Width="1.5" PointX="0.75" PointY="1.25" IsExpanded="true" />
+      <Diagram DiagramId="d50020b2f29e4ad6aac8b9b6b7e6dbe4" Name="Diagram1">
+        <EntityTypeShape EntityType="EvreisMarketplaceModel.Busket_Product" Width="1.5" PointX="5.25" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="EvreisMarketplaceModel.Product" Width="1.5" PointX="3" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="EvreisMarketplaceModel.PVZ" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
         <EntityTypeShape EntityType="EvreisMarketplaceModel.sysdiagrams" Width="1.5" PointX="5.75" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="EvreisMarketplaceModel.User" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="EvreisMarketplaceModel.User" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
         <AssociationConnector Association="EvreisMarketplaceModel.FK_Busket_Product_Product" ManuallyRouted="false" />
         <AssociationConnector Association="EvreisMarketplaceModel.FK_Busket_Product_User" ManuallyRouted="false" />
         <AssociationConnector Association="EvreisMarketplaceModel.FK_User_PVZ" ManuallyRouted="false" />

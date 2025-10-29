@@ -13,36 +13,54 @@ namespace ConsoleApp
         static void Main(string[] args)
         {
             List<Product> products = Core.Context.Product.ToList();
+            List<PVZ> pVZs = Core.Context.PVZ.ToList();
+            List<Busket_Product> products_B = Core.Context.Busket_Product.ToList();
             bool flag = true;
             User anonim = new User("", "");
             while (flag)
             {
+                 foreach (Product product in products)
+                {
+                    Console.WriteLine($"{product.Name} ----- {product.Price}");
+                    
+                }
+                 Console.WriteLine("\n");
                 PrintMenu(anonim.Login);
-
                 Console.WriteLine("Выбирите действие");
                 string choose = Console.ReadLine();
                 switch (choose.ToLower())
                 {
                     case "l":
                         PrintList(products);
+                        if(anonim.Login!="")
+                        { 
                         Console.WriteLine("Выбирите товар по номеру");
-                        string choose2 = Console.ReadLine();
-                        Console.WriteLine(choose2);
+                        int choose2;
+                        while (!int.TryParse(Console.ReadLine(), out choose2) || choose2 < 0)
+                         {
+                                Console.Write("Неверное количество! Введите корректное значение: ");
+                        }
+                            AddtoBacket(choose2, anonim);
+                        }
+                        
                         break;
                     case "r":
                         Regestration(anonim);
                         break;
                     case "k":
-                        Printbasket(anonim.ID);
+                        Printbasket(anonim.Login, products_B,products);
                         break;
                     case "v":
                         Enter(anonim);
                         break;
                     case "p":
-                        Usssr(anonim);
+                        Usssr(anonim.Login,pVZs);
                         break;
                     default: break;
                 }
+                
+                Thread.Sleep(1500);
+                Console.Clear();
             }
         }
         static void Enter(User user)
@@ -87,7 +105,11 @@ namespace ConsoleApp
                             password = Console.ReadLine();
                         }
                         Console.WriteLine("Вы авторизировались");
+                        user.ID = editUser.ID;
                         user.Login = editUser.Login;
+                        user.PVZID = editUser.PVZID;
+                        user.Money = editUser.Money;
+                        r =false;
                         break;
                 }
             }
@@ -95,14 +117,15 @@ namespace ConsoleApp
         }
         static void PrintMenu(string login)
         {
-            Console.WriteLine($"L            R             K         P");
-            Console.WriteLine($"Лист товаров Регистрация   Корзина   Пользователь {login}");
+            Console.WriteLine($"L            V    R             K         P");
+            Console.WriteLine($"Лист товаров Вход Регистрация   Корзина   Пользователь {login}");
         }
-        static void Usssr(string login)
+        static void Usssr(string login, List<PVZ> pVZs)
         {
             if (login == "") Console.WriteLine("Вы не авторизованы");
-            Console.WriteLine("Выбирите действие");
-            Console.WriteLine("1-Сменить логин 2-Сменить пароль");
+            else { 
+                Console.WriteLine("Выбирите действие");
+            Console.WriteLine("1-Сменить логин 2-Сменить пароль 3-Поменять пункт выдачи");
             User editUser = Core.Context.User.First(u => u.Login.Contains(login));
             string choose = Console.ReadLine();
             switch (choose)
@@ -116,68 +139,116 @@ namespace ConsoleApp
                     }
                     else { Console.WriteLine("Логин пустой или логин не изменен");}
                     break;
-                case "1":
+                case "2":
                     Console.WriteLine("Введите логин");
                     string password = Console.ReadLine();
-                    if (password.Length==8)
+                    if (password.Length<=8 && password.Length >0 )
                     {
                         editUser.Password = password;
                     }
-                    else { Console.WriteLine("Пароль должен быть 8 символов"); }
+                    else { Console.WriteLine("Пароль должен быть до 8 символов"); }
                     break;
+                    case "3":
+                        AddPVZ(editUser,pVZs);
+                        break;
+                }
             }
-
         }
-        static void Printbasket(int id)
+        static void Printbasket(string login, List<Busket_Product> products, List<Product> pr)
         {
-            if (id != 0)
+
+            int sum = 0;
+            User editUser = Core.Context.User.First(u => u.Login.Contains(login));
+            var select = (from product in products
+                          where product.UserID == editUser.ID
+                          select product.Product_ID).ToList();
+            if (login == "") Console.WriteLine("Вы не авторизованы");
+            else
             {
-                List<Busket_Product> products = Core.Context.Busket_Product.ToList();
-                var select = from product in products
-                             where product.UserID == id
-                             select product;
+                foreach (var p in select)
+                {
+                    Product U = Core.Context.Product.First(u => u.ID == p);
+                    Console.WriteLine($"{U.Name} ----- {U.Price}");
+                    sum += U.Price;
+                }
+                Console.WriteLine("Сумма заказа = ", sum);
+            
+            Console.WriteLine("Заказать y/n");
+            string choose = Console.ReadLine();
+            switch (choose.ToLower())
+            {
+                case "y": if (sum > editUser.Money && editUser.PVZID != null)
+                    {
+                        Console.WriteLine("Недостаточно средств или не указан пункт выдачи");
+
+                    }
+                    else
+                    {
+                        editUser.Money = -sum;
+                        Core.Context.SaveChanges();
+                        foreach (var p in products)
+                        {
+                            if (p.UserID == editUser.ID)
+                            {
+                                Core.Context.Busket_Product.Remove(p);
+                            }
+                        }
+
+                    }
+                    break;
+
             }
+        }
 
         }
         static void Regestration(User editUser)
         {
-            Console.WriteLine("Введите логин");
+            Console.WriteLine("Введите логин"); 
             string login1 = Console.ReadLine();
             string password1 = "";
-            bool flag = password1 != null || password1.Length >= 8;
-            while (!flag)
+            bool flag = password1.Length >0 && password1.Length <= 8;
+            Console.WriteLine("Введите пароль(до 8 символов)");
+            password1 = Console.ReadLine();
+            while (flag)
             {
                 Console.WriteLine("Введите пароль(до 8 символов)");
                 password1 = Console.ReadLine();
             }
             Console.WriteLine($"Ваш пароль: {password1}");
+            editUser.Login = login1;
+            editUser.Password = password1;  
             Core.Context.User.Add(editUser);
             Core.Context.SaveChanges();
-            Thread.Sleep(1000);
-            Console.Clear();
         }
         static void AddtoBacket(int number, User user)
         {
-            Busket_Product editBucket = new Busket_Product(number, user.ID);
+            User editUser = Core.Context.User.First(u => u.Login.Contains(user.Login));
+            Busket_Product editBucket = new Busket_Product(number, editUser.ID);
             Core.Context.Busket_Product.Add(editBucket);
             Core.Context.SaveChanges();
         }
         static void PrintList(List<Product> products)
         {
-            for (int i = 0; i < products.Count; i++)
+            foreach (Product product in products) 
             {
-                Console.WriteLine($"{i}----{products[i].Name} ----- {products[i].Price}");
+                Console.WriteLine($"{product.ID}----{product.Name} ----- {product.Price}");
             }
         }
 
-        static void AddPVZ(List<PVZ> pVZs, User user1)
+        static void AddPVZ(User user1,List<PVZ> pVZs)
         {
             Console.WriteLine("Выбирите пункт выдачи заказов по номеру");
             for (int i = 0; i >= pVZs.Count() - 1; i++)
             {
-                Console.WriteLine($"{i} --- {pVZs[i].PVZ1}");
+                Console.WriteLine($"{pVZs[i].ID} --- {pVZs[i].PVZ1}");
             }
-
+            int pvz;
+            while (!int.TryParse(Console.ReadLine(), out pvz) || pvz< 0)
+            {
+                Console.Write("Неверное количество! Введите корректное значение: ");
+            }
+            user1.PVZID = pvz;
+            Core.Context.SaveChanges();
         }
     }
 }

@@ -51,48 +51,48 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bd.Context.cs">
+    <Compile Include="BD.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Bd.Context.tt</DependentUpon>
+      <DependentUpon>BD.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Bd.cs">
+    <Compile Include="BD.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Bd.tt</DependentUpon>
+      <DependentUpon>BD.tt</DependentUpon>
     </Compile>
-    <Compile Include="Bd.Designer.cs">
+    <Compile Include="BD.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Bd.edmx</DependentUpon>
+      <DependentUpon>BD.edmx</DependentUpon>
     </Compile>
     <Compile Include="Busket_Product.cs">
-      <DependentUpon>Bd.tt</DependentUpon>
+      <DependentUpon>BD.tt</DependentUpon>
     </Compile>
     <Compile Include="Product.cs">
-      <DependentUpon>Bd.tt</DependentUpon>
+      <DependentUpon>BD.tt</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Core.cs" />
     <Compile Include="PVZ.cs">
-      <DependentUpon>Bd.tt</DependentUpon>
+      <DependentUpon>BD.tt</DependentUpon>
     </Compile>
     <Compile Include="sysdiagrams.cs">
-      <DependentUpon>Bd.tt</DependentUpon>
+      <DependentUpon>BD.tt</DependentUpon>
     </Compile>
     <Compile Include="User.cs">
-      <DependentUpon>Bd.tt</DependentUpon>
+      <DependentUpon>BD.tt</DependentUpon>
     </Compile>
-    <Compile Include="Core.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <EntityDeploy Include="Bd.edmx">
+    <EntityDeploy Include="BD.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Bd.Designer.cs</LastGenOutput>
+      <LastGenOutput>BD.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="Bd.edmx.diagram">
-      <DependentUpon>Bd.edmx</DependentUpon>
+    <None Include="BD.edmx.diagram">
+      <DependentUpon>BD.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
@@ -100,15 +100,15 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Bd.Context.tt">
+    <Content Include="BD.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Bd.edmx</DependentUpon>
-      <LastGenOutput>Bd.Context.cs</LastGenOutput>
+      <DependentUpon>BD.edmx</DependentUpon>
+      <LastGenOutput>BD.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Bd.tt">
+    <Content Include="BD.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Bd.edmx</DependentUpon>
-      <LastGenOutput>Bd.cs</LastGenOutput>
+      <DependentUpon>BD.edmx</DependentUpon>
+      <LastGenOutput>BD.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
