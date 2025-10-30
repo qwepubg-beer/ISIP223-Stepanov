@@ -30,10 +30,10 @@ namespace ConsoleApp
                 string choose = Console.ReadLine();
                 switch (choose.ToLower())
                 {
-                    case "l":
+                    case "l": 
+                        if(anonim.Login!="") 
+                        {
                         PrintList(products);
-                        if(anonim.Login!="")
-                        { 
                         Console.WriteLine("Выбирите товар по номеру");
                         int choose2;
                         while (!int.TryParse(Console.ReadLine(), out choose2) || choose2 < 0)
@@ -42,8 +42,12 @@ namespace ConsoleApp
                         }
                             AddtoBacket(choose2, anonim);
                         }
-                        
-                        break;
+                        else
+                        {
+                            Console.WriteLine("Вы не авторизованы");
+                        }
+
+                            break;
                     case "r":
                         Regestration(anonim);
                         break;
@@ -117,40 +121,46 @@ namespace ConsoleApp
         }
         static void PrintMenu(string login)
         {
-            Console.WriteLine($"L            V    R             K         P");
-            Console.WriteLine($"Лист товаров Вход Регистрация   Корзина   Пользователь {login}");
+            Console.WriteLine($"L                  V    R             K         P");
+            Console.WriteLine($"Лист для покупки   Вход Регистрация   Корзина   Пользователь {login}");
         }
         static void Usssr(string login, List<PVZ> pVZs)
         {
             if (login == "") Console.WriteLine("Вы не авторизованы");
             else { 
                 Console.WriteLine("Выбирите действие");
-            Console.WriteLine("1-Сменить логин 2-Сменить пароль 3-Поменять пункт выдачи");
+            Console.WriteLine("1-Сменить логин 2-Сменить пароль 3-Поменять пункт выдачи 4-Баланс");
             User editUser = Core.Context.User.First(u => u.Login.Contains(login));
             string choose = Console.ReadLine();
-            switch (choose)
-            {
-                case "1":
-                    Console.WriteLine("Введите логин");
-                    string login2 = Console.ReadLine();
-                    if (login != login2 || login2 != "")
-                    {
-                        editUser.Login = login2;
-                    }
-                    else { Console.WriteLine("Логин пустой или логин не изменен");}
-                    break;
-                case "2":
-                    Console.WriteLine("Введите логин");
-                    string password = Console.ReadLine();
-                    if (password.Length<=8 && password.Length >0 )
-                    {
-                        editUser.Password = password;
-                    }
-                    else { Console.WriteLine("Пароль должен быть до 8 символов"); }
-                    break;
-                    case "3":
-                        AddPVZ(editUser,pVZs);
+                switch (choose)
+                {
+                    case "1":
+                        Console.WriteLine("Введите новый логин");
+                        string login2 = Console.ReadLine();
+                        if (login != login2 || login2 != "")
+                        {
+                            editUser.Login = login2;
+                            Core.Context.SaveChanges();
+                        }
+                        else { Console.WriteLine("Логин пустой или логин не изменен"); }
                         break;
+                    case "2":
+                        Console.WriteLine("Введите новый пароль");
+                        string password = Console.ReadLine();
+                        if (password.Length <= 8 && password.Length > 0)
+                        {
+                            editUser.Password = password;
+                            Core.Context.SaveChanges();
+                        }
+                        else { Console.WriteLine("Пароль должен быть до 8 символов"); }
+                        break;
+                    case "3":
+                        AddPVZ(editUser, pVZs);
+                        break;
+                    case "4":
+                        Console.WriteLine($"Ваш баланс {editUser.Money}");
+                        break;
+                    default:break;
                 }
             }
         }
@@ -177,25 +187,28 @@ namespace ConsoleApp
             string choose = Console.ReadLine();
             switch (choose.ToLower())
             {
-                case "y": if (sum > editUser.Money && editUser.PVZID != null)
+                case "y": if (sum > editUser.Money /*&& editUser.PVZID != null*/)
                     {
                         Console.WriteLine("Недостаточно средств или не указан пункт выдачи");
 
                     }
                     else
                     {
-                        editUser.Money = -sum;
+                            Console.WriteLine("Товары куплен курьер Гордов доставит их вам");
+                            editUser.Money = -sum;
                         Core.Context.SaveChanges();
                         foreach (var p in products)
                         {
                             if (p.UserID == editUser.ID)
                             {
                                 Core.Context.Busket_Product.Remove(p);
-                            }
+                                Core.Context.SaveChanges();
+                             }
                         }
 
                     }
                     break;
+                 default:break;
 
             }
         }
@@ -238,9 +251,9 @@ namespace ConsoleApp
         static void AddPVZ(User user1,List<PVZ> pVZs)
         {
             Console.WriteLine("Выбирите пункт выдачи заказов по номеру");
-            for (int i = 0; i >= pVZs.Count() - 1; i++)
+            foreach(var P in pVZs)
             {
-                Console.WriteLine($"{pVZs[i].ID} --- {pVZs[i].PVZ1}");
+                Console.WriteLine($"Номер: {P.ID}----Место: {P.PVZ1}");
             }
             int pvz;
             while (!int.TryParse(Console.ReadLine(), out pvz) || pvz< 0)
