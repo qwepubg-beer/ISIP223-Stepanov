@@ -26,6 +26,8 @@ namespace ConsoleApp
         }
     
         public virtual DbSet<Busket_Product> Busket_Product { get; set; }
+        public virtual DbSet<History> History { get; set; }
+        public virtual DbSet<History_Basket> History_Basket { get; set; }
         public virtual DbSet<Product> Product { get; set; }
         public virtual DbSet<PVZ> PVZ { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }

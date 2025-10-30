@@ -12,28 +12,21 @@ namespace ConsoleApp
     using System;
     using System.Collections.Generic;
     
-    public partial class User
+    public partial class History
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public User()
+        public History()
         {
-            this.Busket_Product = new HashSet<Busket_Product>();
+            this.History_Basket = new HashSet<History_Basket>();
         }
-        public User(string login,string password,int PVZID=1,int Money=1000000)
+        public History(DateTime Data)
         {
-           Login= login;
-           Password= password;
-           this.PVZID = PVZID;
-            this.Money = Money;
+            this.Data = Data;
         }
         public int ID { get; set; }
-        public string Password { get; set; }
-        public string Login { get; set; }
-        public Nullable<int> PVZID { get; set; }
-        public Nullable<int> Money { get; set; }
+        public System.DateTime Data { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Busket_Product> Busket_Product { get; set; }
-        public virtual PVZ PVZ { get; set; }
+        public virtual ICollection<History_Basket> History_Basket { get; set; }
     }
 }

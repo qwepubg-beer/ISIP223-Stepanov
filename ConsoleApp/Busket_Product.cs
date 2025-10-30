@@ -14,21 +14,23 @@ namespace ConsoleApp
     
     public partial class Busket_Product
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Busket_Product()
+        {
+            this.History_Basket = new HashSet<History_Basket>();
+        }
+        public Busket_Product(int pr,int ur)
+        {
+            Product_ID = pr;
+            UserID = ur;    
+        }
         public int ID { get; set; }
         public int Product_ID { get; set; }
         public int UserID { get; set; }
     
         public virtual Product Product { get; set; }
         public virtual User User { get; set; }
-        public Busket_Product()
-        {
-
-        }
-        public Busket_Product(int P_ID, int U_ID)
-        {
-            Product_ID = P_ID;
-            UserID = U_ID;
-        }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<History_Basket> History_Basket { get; set; }
     }
-    
 }

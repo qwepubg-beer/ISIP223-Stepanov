@@ -19,13 +19,15 @@ namespace ConsoleApp
             User anonim = new User("", "");
             while (flag)
             {
-                 foreach (Product product in products)
+                foreach (Product product in products)
                 {
                     Console.WriteLine($"{product.Name} ----- {product.Price}");
                     
                 }
                  Console.WriteLine("\n");
-                PrintMenu(anonim.Login);
+                if (anonim.Login == "")
+                { PrintMenu(anonim.Login); }
+                else { PrintMenu2 (anonim.Login); }
                 Console.WriteLine("Выбирите действие");
                 string choose = Console.ReadLine();
                 switch (choose.ToLower())
@@ -72,12 +74,13 @@ namespace ConsoleApp
             bool r = true;
             while (r)
             {
+
                 Console.WriteLine("Введите логин");
                 string login = Console.ReadLine();
                 User editUser = Core.Context.User.First(u => u.Login.Contains(login));
-                switch (editUser)
+                switch (editUser.Login)
                 {
-                    case null:
+                    case"":
                         Console.WriteLine("Пользователь не найден");
                         Console.WriteLine("Хотите зарегестрироваться? Y/N");
                         string h = Console.ReadLine();
@@ -124,12 +127,17 @@ namespace ConsoleApp
             Console.WriteLine($"L                  V    R             K         P");
             Console.WriteLine($"Лист для покупки   Вход Регистрация   Корзина   Пользователь {login}");
         }
+        static void PrintMenu2(string login)
+        {
+            Console.WriteLine($"L                  K         P");
+            Console.WriteLine($"Лист для покупки   Корзина   Пользователь {login}");
+        }
         static void Usssr(string login, List<PVZ> pVZs)
         {
             if (login == "") Console.WriteLine("Вы не авторизованы");
             else { 
                 Console.WriteLine("Выбирите действие");
-            Console.WriteLine("1-Сменить логин 2-Сменить пароль 3-Поменять пункт выдачи 4-Баланс");
+            Console.WriteLine("1-Сменить логин 2-Сменить пароль 3-Поменять пункт выдачи 4-ИНФО 5-История_покупок");
             User editUser = Core.Context.User.First(u => u.Login.Contains(login));
             string choose = Console.ReadLine();
                 switch (choose)
@@ -158,8 +166,12 @@ namespace ConsoleApp
                         AddPVZ(editUser, pVZs);
                         break;
                     case "4":
-                        Console.WriteLine($"Ваш баланс {editUser.Money}");
+                        PVZ y = Core.Context.PVZ.First(u => u.ID== editUser.PVZID);
+                        Console.WriteLine($" логин:{editUser.Login} пароль:{editUser.Password} Пункт выдачи: {y.PVZ1} Ваш баланс: {editUser.Money}");
                         break;
+                    case "5":
+                        
+                         break;
                     default:break;
                 }
             }
@@ -194,8 +206,8 @@ namespace ConsoleApp
                     }
                     else
                     {
-                            Console.WriteLine("Товары куплен курьер Гордов доставит их вам");
-                            editUser.Money = -sum;
+                        Console.WriteLine("Товары куплен курьер Гордов доставит их вам");
+                        editUser.Money = -sum;
                         Core.Context.SaveChanges();
                         foreach (var p in products)
                         {
@@ -228,9 +240,13 @@ namespace ConsoleApp
                 password1 = Console.ReadLine();
             }
             Console.WriteLine($"Ваш пароль: {password1}");
-            editUser.Login = login1;
-            editUser.Password = password1;  
-            Core.Context.User.Add(editUser);
+            
+            User user = new User ( password1 , login1 );
+            editUser.Login = user.Login;
+            editUser.Password = user.Password;
+            editUser.PVZID = user.PVZID;
+            editUser.Money = user.Money;
+            Core.Context.User.Add(user);
             Core.Context.SaveChanges();
         }
         static void AddtoBacket(int number, User user)

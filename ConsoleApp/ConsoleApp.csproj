@@ -69,6 +69,12 @@
     <Compile Include="Busket_Product.cs">
       <DependentUpon>BD.tt</DependentUpon>
     </Compile>
+    <Compile Include="History.cs">
+      <DependentUpon>BD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="History_Basket.cs">
+      <DependentUpon>BD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Product.cs">
       <DependentUpon>BD.tt</DependentUpon>
     </Compile>

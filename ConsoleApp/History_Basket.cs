@@ -12,20 +12,18 @@ namespace ConsoleApp
     using System;
     using System.Collections.Generic;
     
-    public partial class Product
+    public partial class History_Basket
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Product()
-        {
-            this.Busket_Product = new HashSet<Busket_Product>();
-        }
-    
         public int ID { get; set; }
-        public string Name { get; set; }
-        public int Price { get; set; }
-        public string Description { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Busket_Product> Busket_Product { get; set; }
+        public int HistoryID { get; set; }
+        public int BasketID { get; set; }
+        public History_Basket(int HistoryID, int BasketID)
+        {
+            this.HistoryID = HistoryID;
+            this.BasketID = BasketID;
+
+        }
+        public virtual Busket_Product Busket_Product { get; set; }
+        public virtual History History { get; set; }
     }
 }

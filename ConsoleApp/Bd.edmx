@@ -13,6 +13,21 @@
           <Property Name="Product_ID" Type="int" Nullable="false" />
           <Property Name="UserID" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="History">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Data" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="History_Basket">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="HistoryID" Type="int" Nullable="false" />
+          <Property Name="BasketID" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Product">
           <Key>
             <PropertyRef Name="ID" />
@@ -73,6 +88,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_History_Basket_Busket_Product">
+          <End Role="Busket_Product" Type="Self.Busket_Product" Multiplicity="1" />
+          <End Role="History_Basket" Type="Self.History_Basket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Busket_Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="History_Basket">
+              <PropertyRef Name="BasketID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_History_Basket_History">
+          <End Role="History" Type="Self.History" Multiplicity="1" />
+          <End Role="History_Basket" Type="Self.History_Basket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="History">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="History_Basket">
+              <PropertyRef Name="HistoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_User_PVZ">
           <End Role="PVZ" Type="Self.PVZ" Multiplicity="0..1" />
           <End Role="User" Type="Self.User" Multiplicity="*" />
@@ -87,6 +126,8 @@
         </Association>
         <EntityContainer Name="Хранилище EvreisMarketplaceModelContainer">
           <EntitySet Name="Busket_Product" EntityType="Self.Busket_Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="History" EntityType="Self.History" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="History_Basket" EntityType="Self.History_Basket" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PVZ" EntityType="Self.PVZ" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
@@ -98,6 +139,14 @@
           <AssociationSet Name="FK_Busket_Product_User" Association="Self.FK_Busket_Product_User">
             <End Role="User" EntitySet="User" />
             <End Role="Busket_Product" EntitySet="Busket_Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_History_Basket_Busket_Product" Association="Self.FK_History_Basket_Busket_Product">
+            <End Role="Busket_Product" EntitySet="Busket_Product" />
+            <End Role="History_Basket" EntitySet="History_Basket" />
+          </AssociationSet>
+          <AssociationSet Name="FK_History_Basket_History" Association="Self.FK_History_Basket_History">
+            <End Role="History" EntitySet="History" />
+            <End Role="History_Basket" EntitySet="History_Basket" />
           </AssociationSet>
           <AssociationSet Name="FK_User_PVZ" Association="Self.FK_User_PVZ">
             <End Role="PVZ" EntitySet="PVZ" />
@@ -118,6 +167,25 @@
           <Property Name="UserID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Product" Relationship="Self.FK_Busket_Product_Product" FromRole="Busket_Product" ToRole="Product" />
           <NavigationProperty Name="User" Relationship="Self.FK_Busket_Product_User" FromRole="Busket_Product" ToRole="User" />
+          <NavigationProperty Name="History_Basket" Relationship="Self.FK_History_Basket_Busket_Product" FromRole="Busket_Product" ToRole="History_Basket" />
+        </EntityType>
+        <EntityType Name="History">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Data" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="History_Basket" Relationship="Self.FK_History_Basket_History" FromRole="History" ToRole="History_Basket" />
+        </EntityType>
+        <EntityType Name="History_Basket">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="HistoryID" Type="Int32" Nullable="false" />
+          <Property Name="BasketID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Busket_Product" Relationship="Self.FK_History_Basket_Busket_Product" FromRole="History_Basket" ToRole="Busket_Product" />
+          <NavigationProperty Name="History" Relationship="Self.FK_History_Basket_History" FromRole="History_Basket" ToRole="History" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -183,6 +251,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_History_Basket_Busket_Product">
+          <End Role="Busket_Product" Type="Self.Busket_Product" Multiplicity="1" />
+          <End Role="History_Basket" Type="Self.History_Basket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Busket_Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="History_Basket">
+              <PropertyRef Name="BasketID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_History_Basket_History">
+          <End Role="History" Type="Self.History" Multiplicity="1" />
+          <End Role="History_Basket" Type="Self.History_Basket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="History">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="History_Basket">
+              <PropertyRef Name="HistoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_User_PVZ">
           <End Role="PVZ" Type="Self.PVZ" Multiplicity="0..1" />
           <End Role="User" Type="Self.User" Multiplicity="*" />
@@ -197,6 +289,8 @@
         </Association>
         <EntityContainer Name="EvreisMarketplaceEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Busket_Product" EntityType="Self.Busket_Product" />
+          <EntitySet Name="History" EntityType="Self.History" />
+          <EntitySet Name="History_Basket" EntityType="Self.History_Basket" />
           <EntitySet Name="Product" EntityType="Self.Product" />
           <EntitySet Name="PVZ" EntityType="Self.PVZ" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
@@ -208,6 +302,14 @@
           <AssociationSet Name="FK_Busket_Product_User" Association="Self.FK_Busket_Product_User">
             <End Role="User" EntitySet="User" />
             <End Role="Busket_Product" EntitySet="Busket_Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_History_Basket_Busket_Product" Association="Self.FK_History_Basket_Busket_Product">
+            <End Role="Busket_Product" EntitySet="Busket_Product" />
+            <End Role="History_Basket" EntitySet="History_Basket" />
+          </AssociationSet>
+          <AssociationSet Name="FK_History_Basket_History" Association="Self.FK_History_Basket_History">
+            <End Role="History" EntitySet="History" />
+            <End Role="History_Basket" EntitySet="History_Basket" />
           </AssociationSet>
           <AssociationSet Name="FK_User_PVZ" Association="Self.FK_User_PVZ">
             <End Role="PVZ" EntitySet="PVZ" />
@@ -226,6 +328,23 @@
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Product_ID" ColumnName="Product_ID" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="History">
+            <EntityTypeMapping TypeName="EvreisMarketplaceModel.History">
+              <MappingFragment StoreEntitySet="History">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="History_Basket">
+            <EntityTypeMapping TypeName="EvreisMarketplaceModel.History_Basket">
+              <MappingFragment StoreEntitySet="History_Basket">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="HistoryID" ColumnName="HistoryID" />
+                <ScalarProperty Name="BasketID" ColumnName="BasketID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
