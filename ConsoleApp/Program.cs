@@ -184,7 +184,7 @@ namespace ConsoleApp
             var select = (from product in products
                           where product.UserID == editUser.ID
                           select product.Product_ID).ToList();
-            if (login == "") Console.WriteLine("Вы не авторизованы");
+            if (login == "") { Console.WriteLine("Вы не авторизованы"); }
             else
             {
                 foreach (var p in select)
@@ -194,38 +194,57 @@ namespace ConsoleApp
                     sum += U.Price;
                 }
                 Console.WriteLine("Сумма заказа = ", sum);
-            
-            Console.WriteLine("Заказать y/n");
-            string choose = Console.ReadLine();
-            switch (choose.ToLower())
-            {
-                case "y": if (sum > editUser.Money /*&& editUser.PVZID != null*/)
-                    {
-                        Console.WriteLine("Недостаточно средств или не указан пункт выдачи");
 
-                    }
-                    else
-                    {
-                        Console.WriteLine("Товары куплен курьер Гордов доставит их вам");
-                        editUser.Money = -sum;
-                        Core.Context.SaveChanges();
-                        foreach (var p in products)
+                Console.WriteLine("Заказать y/n");
+                string choose = Console.ReadLine();
+                switch (choose.ToLower())
+                {
+                    case "y":
+                        if (sum > editUser.Money /*&& editUser.PVZID != null*/)
                         {
-                            if (p.UserID == editUser.ID)
-                            {
-                                Core.Context.Busket_Product.Remove(p);
-                                Core.Context.SaveChanges();
-                             }
+                            Console.WriteLine("Недостаточно средств или не указан пункт выдачи");
+
                         }
+                        else
+                        {
+                            Console.WriteLine("Товары куплен курьер Гордов доставит их вам");
+                            editUser.Money = -sum;
+                            Core.Context.SaveChanges();
+                            foreach (var p in products)
+                            {
+                                if (p.UserID == editUser.ID)
+                                {
+                                    History history = new History(p.Product_ID, editUser.ID, DateTime.Today);
+                                    Core.Context.Busket_Product.Remove(p);
+                                    Core.Context.SaveChanges();
+                                }
+                            }
 
-                    }
-                    break;
-                 default:break;
+                        }
+                        break;
+                    default: break;
 
+                }
             }
         }
-
-        }
+            static void PrintHistory(string login, List<History> hs)
+            {
+                if(login!="")
+            { 
+                User editUser = Core.Context.User.First(u => u.Login.Contains(login));
+                var select = (from product in hs
+                              where product.UserID == editUser.ID
+                              select product).ToList();
+                foreach (var p in select)
+                {
+                    Product Pr = Core.Context.Product.First(u => u.ID == p.ProductID);
+                    Console.WriteLine($"{Pr.Name} ----- {Pr.Price}----- {p.Data}");
+                    
+                }
+            }
+            
+            }
+        
         static void Regestration(User editUser)
         {
             Console.WriteLine("Введите логин"); 
