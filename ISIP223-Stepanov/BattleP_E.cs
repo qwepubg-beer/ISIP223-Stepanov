@@ -1,12 +1,15 @@
 ﻿using System;
-using System.Xml.Linq;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace GamePR6
+namespace ISIP223_Stepanov
 {
-        
-    class Program
+     
+    internal class BattleP_E
     {
-         static void Main(string[] args)
+        static void Main(string[] args)
         {
             Random rand = new Random();
             Console.WriteLine("Добро пожаловать в игру Спернимонов против нежити");
@@ -63,7 +66,7 @@ namespace GamePR6
         }
         static void attack(Person p, Person e, double attack)
         {
-            
+
             e.Hp -= attack;
 
         }
