@@ -27,17 +27,22 @@ namespace ISIP223_Stepanov.modul
             }
 
         }
-        static public Person SetSperminov()
+        static public Person SetSperminov(string Choose)
         {
-            string Choose = Console.ReadLine();
             Person Sperminov = new Person("Сперминов", 100);
             switch (Choose)
             { 
                case "1":
-                    Sperminov.Damage = Weapons.Axe.Damage; Sperminov.Def = Defends.shield.Block;
+                    Sperminov.BHp = 150;
+                    Sperminov.Hp = 150;
+                    Sperminov.Damage = Weapons.Axe.Damage; 
+                    Sperminov.Def = Defends.shield.Block;
                     break;
                 case "2":
-                    Sperminov.Damage = Weapons.bow.Damage; Sperminov.Def = Defends.iron_armor.Block;
+                    Sperminov.BHp = 120;
+                    Sperminov.Hp = 120;
+                    Sperminov.Damage = Weapons.bow.Damage; 
+                    Sperminov.Def = Defends.iron_armor.Block;
                     break;
                 case "3":
                     Sperminov.Damage = Weapons.Sword.Damage; Sperminov.Def = Defends.leather_armor.Block;

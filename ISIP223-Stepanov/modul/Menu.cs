@@ -11,7 +11,7 @@ namespace ISIP223_Stepanov.modul
     {
         static public void PrintMenu()
         {
-            Console.WriteLine("Добро пожаловать в игру Спернимонов против нежити");
+            Console.WriteLine("Добро пожаловать в игру Сперминов против нежити");
             Console.WriteLine("Выбирите уровень сложности");
             Console.WriteLine("1 - Сперминов прайм");
             Console.WriteLine("2 - Сперминов в Хогвартсе");

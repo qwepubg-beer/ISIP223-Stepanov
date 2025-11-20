@@ -17,7 +17,7 @@ namespace ISIP223_Stepanov.modul
         {
             return rand.Next(0, 4);
         }
-        static public int R3()
+        static public int R5()
         {
             return rand.Next(0, 3);
 
@@ -27,5 +27,26 @@ namespace ISIP223_Stepanov.modul
         {
             return rand.Next(0, 2);
         }
+        static public int UpHp()
+        {
+            return rand.Next(0, 40);
+        }
+        static public int UpDamage()
+        {
+            return rand.Next(0, 10);
+        }
+        static public bool Freze() 
+        {
+            if (RandomZ.R100() <= 25)
+                return true;
+            else return false;
+        }
+        static public bool DoubleDamage()
+        {
+            if (RandomZ.R100() <= 40)
+                return true;
+            else return false;
+        }
+        
     }
 }

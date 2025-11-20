@@ -32,11 +32,13 @@ namespace ISIP223_Stepanov.modul
         static public Enemy Goblin = new Enemy("Гоблин", 50, 10, 10, "G");
         static public Enemy Skelet = new Enemy("Скелет", 50, 10, 10, "S");
         static public Enemy Mag = new Enemy("Маг", 40, 15, 10, "M");
+        static public Enemy Slizen = new Enemy("Слизень", 50, 10, 10, "C");
         static public Enemy Grifin = new Enemy("ГВВ", 100, 24, 20, "G");
         static public Enemy Kov = new Enemy("Ковальский", 120, 20, 20, "S");
         static public Enemy cpp = new Enemy("GordovC++", 72, 26, 11, "M");
         static public Enemy cmm = new Enemy("PestovC--", 78, 16, 6, "S");
-        static public List<Enemy> enemies = new List<Enemy> { Goblin, Skelet, Mag };
-        static public List<Enemy> Bosses = new List<Enemy> { Grifin, Kov, cpp, cmm };
+        static public Enemy Lev = new Enemy("LEV", 50, 30, 6, "M");
+        static public List<Enemy> enemies = new List<Enemy> { Goblin, Skelet, Mag, Slizen };
+        static public List<Enemy> Bosses = new List<Enemy> { Grifin, Kov, cpp, cmm, Lev};
     }
 }
