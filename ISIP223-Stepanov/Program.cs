@@ -18,7 +18,7 @@ namespace GamePR6
             switch (Choose)
             {
                 case "1":
-                    Sperminov.Damage = Axe.Damage; Sperminov.Def = shield.Block;
+                    Sperminov.Damage = Weapons.Axe.Damage; Sperminov.Def = shield.Block;
                     break;
                 case "2":
                     Sperminov.Damage = bow.Damage; Sperminov.Def = iron_armor.Block;

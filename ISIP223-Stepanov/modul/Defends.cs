@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ISIP223_Stepanov
+namespace ISIP223_Stepanov.modul
 {
     internal class Defends
     {
-        class Def
+        public class Def
         {
             public string NameD;
             public int Block;
@@ -21,8 +22,8 @@ namespace ISIP223_Stepanov
 
             }
         }
-        static Def shield = new Def("Щит", 60);
-        static Def leather_armor = new Def("Кожанка", 20);
-        static Def iron_armor = new Def("Кальчуга", 40);
+        static public Def shield = new Def("Щит", 60);
+        static public Def leather_armor = new Def("Кожанка", 20);
+        static public Def iron_armor = new Def("Кальчуга", 40);
     }
 }

@@ -1,50 +1,32 @@
-﻿using System;
+﻿using ISIP223_Stepanov.modul;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using static ISIP223_Stepanov.modul.Enemies;
 
-namespace ISIP223_Stepanov
+namespace ISIP223_Stepanov.modul
 {
      
     internal class BattleP_E
     {
         static void Main(string[] args)
         {
-            Random rand = new Random();
-            Console.WriteLine("Добро пожаловать в игру Спернимонов против нежити");
-            Console.WriteLine("Выбирите уровень сложности");
-            Console.WriteLine("1 - Сперминов прайм");
-            Console.WriteLine("2 - Сперминов в Хогвартсе");
-            Console.WriteLine("3 - Сперминов в КипФине");
+            RandomZ rand = new RandomZ();
+            Menu.PrintMenu();
             string Choose = Console.ReadLine();
-            switch (Choose)
-            {
-                case "1":
-                    Sperminov.Damage = Axe.Damage; Sperminov.Def = shield.Block;
-                    break;
-                case "2":
-                    Sperminov.Damage = bow.Damage; Sperminov.Def = iron_armor.Block;
-                    break;
-                case "3":
-                    Sperminov.Damage = Sword.Damage; Sperminov.Def = leather_armor.Block;
-                    break;
-                default:
-                    Sperminov.Damage = bow.Damage; Sperminov.Def = iron_armor.Block;
-
-                    break;
-            }
-            Console.WriteLine("Нажмите для продолжения\n");
-            Console.ReadKey();
-            Console.Clear();
+            Persons.Person Sperminov= Persons.SetSperminov();
+            Menu.Continue();
             battlesystem(Sperminov, Bosses, enemies);
 
         }
-        static void battle(Person p, Enemy e)
+        static void battle(Persons.Person p, Enemy e)
         {
             while (p.Hp > 0 && e.Hp > 0)
             {
-                Random random = new Random();
+                RandomZ random = new RandomZ();
                 if (p.Hp <= 0) { Console.WriteLine("Вы проиграли"); break; }
                 Console.WriteLine($"Здоровье Сперминова = {p.Hp}");
                 Console.WriteLine($"Здоровье Врага {e.Name} = {e.Hp}");
@@ -53,7 +35,7 @@ namespace ISIP223_Stepanov
 
                 switch (Choose)
                 {
-                    case "1": if (random.Next(0, 100) <= 25 && e.Type == "M") { Console.WriteLine("Маг отразил вашу атаку"); break; } else { defend(p, e); break; }
+                    case "1": if (RandomZ.R100() <= 25 && e.Type == "M") { Console.WriteLine("Маг отразил вашу атаку"); break; } else { defend(p, e); break; }
 
                     default:
                         defend(p, e); break;
@@ -64,20 +46,20 @@ namespace ISIP223_Stepanov
                 }
             }
         }
-        static void attack(Person p, Person e, double attack)
+        static void attack(Persons.Person p, Enemy e, double attack)
         {
 
             e.Hp -= attack;
 
         }
-        static void defend(Person p, Person e)
+        static void defend(Persons.Person p, Enemy e)
         {
             double damage = p.Damage;
-            Random random = new Random();
-            switch (p.Type)
+            RandomZ random = new RandomZ();
+            switch (e.Type)
             {
                 case "G":
-                    if (random.Next(0, 100) <= 40)
+                    if (RandomZ.R100() <= 40)
                     {
                         Console.WriteLine("Гоблин наносит двойной урон");
                         damage = p.Damage * (100 - e.Def) / 50;
@@ -91,68 +73,67 @@ namespace ISIP223_Stepanov
             }
             attack(p, e, damage);
         }
-        static void CaseorBattle(Person p, Person e)
+        static void CaseorBattle(Persons.Person p, Enemy e)
         {
             Thread.Sleep(1000);
             Console.Clear();
-            Random random = new Random();
-            if (random.Next(2) == 1)
+            if (RandomZ.R2() == 1)
             {
                 Console.WriteLine("Бой начинается");
                 battle(p, e);
             }
-            else if (random.Next(2) == 0)
+            else if (RandomZ.R2() == 0)
             {
                 Console.WriteLine("Вам выпал кейс");
                 Case(p);
             }
         }
-        static void Case(Person p)
+        static void Case(Persons.Person p)
         {
             List<double> list = new List<double> { 1.1, 1.15, 1.2, 1.25 };
-            Random random = new Random();
-            if (random.Next(2) == 0)
+            RandomZ random = new RandomZ();
+            if (RandomZ.R2() == 0)
             {
                 p.Hp = p.BHp;
                 Console.WriteLine("Вам выпало зелье регенерации. Вы исцелены");
             }
             else
             {
-                if (random.Next(2) == 1)
+                if (RandomZ.R2() == 1)
                 {
-                    int a = random.Next(4);
+                    int a = RandomZ.R4();
                     p.BHp *= list[a];
                     Console.WriteLine($"Вам выпало усиление здоровья в {list[a]}");
                 }
                 else
                 {
-                    int a = random.Next(4);
+                    int a = RandomZ.R4();
                     p.Damage *= list[a];
-                    Console.WriteLine($"Вам выпало усиление урона в {list[a]}");
+                    Console.WriteLine($"Вам выпало усиление урона на {list[a]}");
                 }
             }
             Console.WriteLine("Нажмите для продолжения\n");
             Console.ReadKey();
         }
-        static void battlesystem(Person p, List<Person> Bosses, List<Person> enemies)
+        static void battlesystem(Persons.Person p, List<Enemies.Enemy> enemies, List<Enemies.Enemy> bosses)
         {
             int round = 0;
-            Random rand = new Random();
+            RandomZ rand = new RandomZ();
 
             while (p.Hp > 0)
             {
-                foreach (Person a in enemies)
+                foreach (Enemies.Enemy a in enemies)
                 {
                     a.Hp = a.BHp;
                 }
-                foreach (Person a in enemies)
+                foreach (Enemies.Enemy a in enemies)
                 {
                     a.Hp = a.BHp;
                 }
                 round += 1;
                 Console.WriteLine($"Раунд {round}");
-                if (round == 10) { Console.WriteLine($"Битва с босом"); battle(p, Bosses[rand.Next(4)]); }
-                else { CaseorBattle(p, enemies[rand.Next(3)]); }
+                if (round == 10) { Console.WriteLine($"Битва с босом"); battle(p, Bosses[RandomZ.R4()]); }
+                else { CaseorBattle(p, enemies[RandomZ.R3()]); }
             }
             Console.WriteLine("Вы проиграли");
         }

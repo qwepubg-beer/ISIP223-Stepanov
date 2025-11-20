@@ -4,11 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ISIP223_Stepanov
+namespace ISIP223_Stepanov.modul
 {
     internal class Weapons
     {
-        class Weapon
+        static public Weapon Sword = new Weapon("Меч", 10);
+        static public Weapon Axe = new Weapon("Топор", 15);
+        static public Weapon bow = new Weapon("Лук", 12);
+        public class Weapon
         {
             public string NameW;
             public int Damage;
@@ -19,8 +22,6 @@ namespace ISIP223_Stepanov
                 Damage = block;
             }
         }
-        static Weapon Sword = new Weapon("Меч", 10);
-        static Weapon Axe = new Weapon("Топор", 15);
-        static Weapon bow = new Weapon("Лук", 12);
+        
     }
 }
